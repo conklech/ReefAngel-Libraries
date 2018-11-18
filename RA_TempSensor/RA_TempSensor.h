@@ -23,7 +23,6 @@
 #define __RA_TEMPSENSOR_H__
 
 #include <Globals.h>
-#include <Wire.h>
 
 class RA_TempSensorClass
 {
