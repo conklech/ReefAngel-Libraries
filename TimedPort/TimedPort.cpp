@@ -51,14 +51,14 @@ void TimedPort::On()
   if (Delay) {
     DelayedOn();
   } else {
-    ReefAngel.Relay.On(ID);
+    ReefAngel->Relay.On(ID);
     running=true;
   }
 }
 
 void TimedPort::Off()
 {
-  ReefAngel.Relay.Off(ID);
+  ReefAngel->Relay.Off(ID);
   running=false;
 }
 
@@ -69,8 +69,8 @@ void TimedPort::DelayedOn()
 
 void TimedPort::DelayedOn(byte delay) 
 {
-  ReefAngel.Relay.DelayedOn(ID, delay);
-  running=ReefAngel.Relay.Status(ID);
+  ReefAngel->Relay.DelayedOn(ID, delay);
+  running=ReefAngel->Relay.Status(ID);
 }
 
 void TimedPort::Auto()
@@ -80,18 +80,18 @@ void TimedPort::Auto()
 
 void TimedPort::Override(byte type) 
 { 
-  ReefAngel.Relay.Override(ID, type);
-  running=ReefAngel.Relay.Status(ID);
+  ReefAngel->Relay.Override(ID, type);
+  running=ReefAngel->Relay.Status(ID);
 }
 
 void TimedPort::Set(bool status) 
 {
-  ReefAngel.Relay.Set(ID, running=status); 
+  ReefAngel->Relay.Set(ID, running=status); 
 }
   
 void TimedPort::Toggle() 
 {
-  ReefAngel.Relay.Set(ID, running=!running); 
+  ReefAngel->Relay.Set(ID, running=!running); 
 }
 	
 void TimedPort::Run() {
@@ -146,8 +146,8 @@ void TimedPort::Osc(int offset, int ontime, int offtime, bool status)
 	// If status is false we reverse the behavior
 	if (!status) running=!running;
 
-	ReefAngel.Relay.Set(ID, running);  
-    running=ReefAngel.Relay.Status(ID);;
+	ReefAngel->Relay.Set(ID, running);  
+    running=ReefAngel->Relay.Status(ID);;
 }
 
 void TimedPort::Start() 

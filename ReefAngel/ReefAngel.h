@@ -617,7 +617,7 @@ private:
 
 };
 
-extern ReefAngelClass ReefAngel;  // make an instance for the user
+extern ReefAngelClass *ReefAngel;  // make an instance for the user
 
 #endif  // __REEFANGEL_H__
 

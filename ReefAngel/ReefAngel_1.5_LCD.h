@@ -3457,7 +3457,7 @@ void ReefAngelClass::DisplaySetupCalibrateChoicePH()
     wdt_reset();
     #endif//WDT||defined WDT_FORCE
     #if defined wifi||defined ETH_WIZ5100
-    ReefAngel.Network.ReceiveData();
+    ReefAngel->Network.ReceiveData();
     #endif//wifi||defined ETH_WIZ5100
     ph_read_range[setup_step]=0;
     for (int a=0;a<30;a++)
@@ -3602,7 +3602,7 @@ void ReefAngelClass::StartSetupCalibrateChoicePHExp()
     setup_screen_refresh=true;
     setup_save=false;
 #ifdef CLOUD_WIFI
-		if (bitRead(ReefAngel.CEM,CloudPHExpBit)==1) { Serial.println(F("CLOUD:PHEC:1")); }
+		if (bitRead(ReefAngel->CEM,CloudPHExpBit)==1) { Serial.println(F("CLOUD:PHEC:1")); }
 		CloudCalVal=0;
 #endif
 }
@@ -3625,14 +3625,14 @@ void ReefAngelClass::DisplaySetupCalibrateChoicePHExp()
     wdt_reset();
     #endif//WDT||defined WDT_FORCE
     #if defined wifi||defined ETH_WIZ5100
-    ReefAngel.Network.ReceiveData();
+    ReefAngel->Network.ReceiveData();
     #endif//wifi||defined ETH_WIZ5100
     ph_read_range[setup_step]=0;
 	wdt_reset();
 #if defined wifi || defined ETH_WIZ5100
-	ReefAngel.Network.ReceiveData();
+	ReefAngel->Network.ReceiveData();
 #endif  // wifi
-	if (bitRead(ReefAngel.CEM,CloudPHExpBit)==0)
+	if (bitRead(ReefAngel->CEM,CloudPHExpBit)==0)
 	{
 	    for (int a=0;a<5;a++)
 	    {
@@ -3756,7 +3756,7 @@ void ReefAngelClass::DisplaySetupCalibrateChoicePHExp()
         {
             setup_save=false;
 #ifdef CLOUD_WIFI
-		if (bitRead(ReefAngel.CEM,CloudPHExpBit)==1) { Serial.println(F("CLOUD:PHEC:0")); }
+		if (bitRead(ReefAngel->CEM,CloudPHExpBit)==1) { Serial.println(F("CLOUD:PHEC:0")); }
 #endif
         }
         setup_step+=1;
@@ -3773,8 +3773,8 @@ void ReefAngelClass::DisplaySetupCalibrateChoicePHExp()
         InternalMemory.PHExpMin_write(PHExpMin);
         InternalMemory.PHExpMax_write(PHExpMax);
 #ifdef CLOUD_WIFI
-		if (bitRead(ReefAngel.CEM,CloudPHExpBit)==1) { Serial.print(F("CLOUD:PHEC:2:")); Serial.println(PHExpMin); }
-		if (bitRead(ReefAngel.CEM,CloudPHExpBit)==1) { Serial.print(F("CLOUD:PHEC:3:")); Serial.println(PHExpMax); }
+		if (bitRead(ReefAngel->CEM,CloudPHExpBit)==1) { Serial.print(F("CLOUD:PHEC:2:")); Serial.println(PHExpMin); }
+		if (bitRead(ReefAngel->CEM,CloudPHExpBit)==1) { Serial.print(F("CLOUD:PHEC:3:")); Serial.println(PHExpMax); }
 #endif
     }
 }
@@ -3790,7 +3790,7 @@ void ReefAngelClass::StartSetupCalibrateSalinity()
     setup_input_render=true;
     setup_screen_refresh=true;
 #ifdef CLOUD_WIFI
-		if (bitRead(ReefAngel.CEM,CloudSalinityBit)==1) { Serial.println(F("CLOUD:SALC:1")); }
+		if (bitRead(ReefAngel->CEM,CloudSalinityBit)==1) { Serial.println(F("CLOUD:SALC:1")); }
 		CloudCalVal=0;
 #endif
 }
@@ -3805,9 +3805,9 @@ void ReefAngelClass::DisplaySetupCalibrateSalinity()
     }
 	wdt_reset();
 #if defined wifi || defined ETH_WIZ5100
-	ReefAngel.Network.ReceiveData();
+	ReefAngel->Network.ReceiveData();
 #endif  // wifi
-	if (bitRead(ReefAngel.CEM,CloudSalinityBit)==0)
+	if (bitRead(ReefAngel->CEM,CloudSalinityBit)==0)
 	{
 	    salinity_read=0;
 	    for(int a=0; a<15; a++)
@@ -3843,13 +3843,13 @@ void ReefAngelClass::DisplaySetupCalibrateSalinity()
             InternalMemory.SalTempComp_write(Params.Temp[TempProbe]);
             SalMax=salinity_read;
 #ifdef CLOUD_WIFI
-		if (bitRead(ReefAngel.CEM,CloudSalinityBit)==1) { Serial.print(F("CLOUD:SALC:2:")); Serial.println(SalMax); }
+		if (bitRead(ReefAngel->CEM,CloudSalinityBit)==1) { Serial.print(F("CLOUD:SALC:2:")); Serial.println(SalMax); }
 #endif
         }
         else
         {
 #ifdef CLOUD_WIFI
-		if (bitRead(ReefAngel.CEM,CloudSalinityBit)==1) { Serial.println(F("CLOUD:SALC:0")); }
+		if (bitRead(ReefAngel->CEM,CloudSalinityBit)==1) { Serial.println(F("CLOUD:SALC:0")); }
 #endif
         }
         ClearScreen(DefaultBGColor);
@@ -3872,7 +3872,7 @@ void ReefAngelClass::SetupCalibrateORP()
 	ClearScreen(DefaultBGColor);
 	DisplayedMenu=ORP_CALIBRATE_MENU;
 #ifdef CLOUD_WIFI
-		if (bitRead(ReefAngel.CEM,CloudORPBit)==1) { Serial.println(F("CLOUD:ORPC:1")); }
+		if (bitRead(ReefAngel->CEM,CloudORPBit)==1) { Serial.println(F("CLOUD:ORPC:1")); }
 		CloudCalVal=0;
 #endif
 	for (int b=0;b<2;b++)
@@ -3893,10 +3893,10 @@ void ReefAngelClass::SetupCalibrateORP()
 			wdt_reset();
 #endif  // defined WDT || defined WDT_FORCE
 #if defined wifi || defined ETH_WIZ5100
-			ReefAngel.Network.ReceiveData();
+			ReefAngel->Network.ReceiveData();
 #endif  // wifi
 			iO[b]=0;
-			if (bitRead(ReefAngel.CEM,CloudORPBit)==0)
+			if (bitRead(ReefAngel->CEM,CloudORPBit)==0)
 			{
 				for (int a=0;a<15;a++)
 				{
@@ -3943,7 +3943,7 @@ void ReefAngelClass::SetupCalibrateORP()
 				else
 				{
 #ifdef CLOUD_WIFI
-					if (bitRead(ReefAngel.CEM,CloudORPBit)==1) { Serial.println(F("CLOUD:ORPC:0")); }
+					if (bitRead(ReefAngel->CEM,CloudORPBit)==1) { Serial.println(F("CLOUD:ORPC:0")); }
 #endif
 				}
 			}
@@ -3961,8 +3961,8 @@ void ReefAngelClass::SetupCalibrateORP()
 		InternalMemory.ORPMax_write(iO[1]);
 		ORPMax = iO[1];
 #ifdef CLOUD_WIFI
-		if (bitRead(ReefAngel.CEM,CloudORPBit)==1) { Serial.print(F("CLOUD:ORPC:2:")); Serial.println(ORPMin); }
-		if (bitRead(ReefAngel.CEM,CloudORPBit)==1) { Serial.print(F("CLOUD:ORPC:3:")); Serial.println(ORPMax); }
+		if (bitRead(ReefAngel->CEM,CloudORPBit)==1) { Serial.print(F("CLOUD:ORPC:2:")); Serial.println(ORPMin); }
+		if (bitRead(ReefAngel->CEM,CloudORPBit)==1) { Serial.print(F("CLOUD:ORPC:3:")); Serial.println(ORPMax); }
 #endif
 	}
 }
@@ -3998,8 +3998,8 @@ void ReefAngelClass::SetupCalibrateWaterLevel()
 	DisplayedMenu=WL_CALIBRATE_MENU;
 #ifdef CLOUD_WIFI
 	sprintf(buffer, "WL%dC:1", wl_channel);
-	if (bitRead(ReefAngel.CEM,CloudWLBit)==1 && wl_channel==0) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
-	if (bitRead(ReefAngel.CEM,CloudMultiWLBit)==1  && wl_channel>0 && wl_channel<5) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
+	if (bitRead(ReefAngel->CEM,CloudWLBit)==1 && wl_channel==0) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
+	if (bitRead(ReefAngel->CEM,CloudMultiWLBit)==1  && wl_channel>0 && wl_channel<5) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
 	CloudCalVal=0;
 #endif
 	for (int b=0;b<2;b++)
@@ -4019,10 +4019,10 @@ void ReefAngelClass::SetupCalibrateWaterLevel()
 		{
 			wdt_reset();
 #if defined wifi || defined ETH_WIZ5100
-			ReefAngel.Network.ReceiveData();
+			ReefAngel->Network.ReceiveData();
 #endif  // wifi
 			iO[b]=0;
-			if (bitRead(ReefAngel.CEM,CloudWLBit)==0 && wl_channel==0)
+			if (bitRead(ReefAngel->CEM,CloudWLBit)==0 && wl_channel==0)
 			{
 				for (int a=0;a<15;a++)
 				{
@@ -4030,7 +4030,7 @@ void ReefAngelClass::SetupCalibrateWaterLevel()
 				}
 				iO[b]/=15;
 			}
-			else if (bitRead(ReefAngel.CEM,CloudMultiWLBit)==0 && wl_channel>0)
+			else if (bitRead(ReefAngel->CEM,CloudMultiWLBit)==0 && wl_channel>0)
 			{
 				for (int a=0;a<15;a++)
 				{
@@ -4092,8 +4092,8 @@ void ReefAngelClass::SetupCalibrateWaterLevel()
 				{
 #ifdef CLOUD_WIFI
 					sprintf(buffer, "WL%dC:0", wl_channel);
-					if (bitRead(ReefAngel.CEM,CloudWLBit)==1 && wl_channel==0) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
-					if (bitRead(ReefAngel.CEM,CloudMultiWLBit)==1  && wl_channel>0 && wl_channel<5) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
+					if (bitRead(ReefAngel->CEM,CloudWLBit)==1 && wl_channel==0) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
+					if (bitRead(ReefAngel->CEM,CloudMultiWLBit)==1  && wl_channel>0 && wl_channel<5) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
 #endif
 					wl_channel++;
 					if ( wl_channel == WATERLEVEL_CHANNELS )
@@ -4106,8 +4106,8 @@ void ReefAngelClass::SetupCalibrateWaterLevel()
 					}
 #ifdef CLOUD_WIFI
 					sprintf(buffer, "WL%dC:1", wl_channel);
-					if (bitRead(ReefAngel.CEM,CloudWLBit)==1 && wl_channel==0) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
-					if (bitRead(ReefAngel.CEM,CloudMultiWLBit)==1  && wl_channel>0 && wl_channel<5) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
+					if (bitRead(ReefAngel->CEM,CloudWLBit)==1 && wl_channel==0) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
+					if (bitRead(ReefAngel->CEM,CloudMultiWLBit)==1  && wl_channel>0 && wl_channel<5) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
 #endif
 				}
 			}
@@ -4117,8 +4117,8 @@ void ReefAngelClass::SetupCalibrateWaterLevel()
 				{
 #ifdef CLOUD_WIFI
 					sprintf(buffer, "WL%dC:0", wl_channel);
-					if (bitRead(ReefAngel.CEM,CloudWLBit)==1 && wl_channel==0) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
-					if (bitRead(ReefAngel.CEM,CloudMultiWLBit)==1  && wl_channel>0 && wl_channel<5) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
+					if (bitRead(ReefAngel->CEM,CloudWLBit)==1 && wl_channel==0) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
+					if (bitRead(ReefAngel->CEM,CloudMultiWLBit)==1  && wl_channel>0 && wl_channel<5) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
 #endif
 					wl_channel--;
 #if defined MULTIWATERLEVELEXPANSION && !defined WATERLEVELEXPANSION
@@ -4137,8 +4137,8 @@ void ReefAngelClass::SetupCalibrateWaterLevel()
 					}
 #ifdef CLOUD_WIFI
 					sprintf(buffer, "WL%dC:1", wl_channel);
-					if (bitRead(ReefAngel.CEM,CloudWLBit)==1 && wl_channel==0) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
-					if (bitRead(ReefAngel.CEM,CloudMultiWLBit)==1  && wl_channel>0 && wl_channel<5) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
+					if (bitRead(ReefAngel->CEM,CloudWLBit)==1 && wl_channel==0) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
+					if (bitRead(ReefAngel->CEM,CloudMultiWLBit)==1  && wl_channel>0 && wl_channel<5) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
 #endif
 				}
 			}
@@ -4181,8 +4181,8 @@ void ReefAngelClass::SetupCalibrateWaterLevel()
 				{
 #ifdef CLOUD_WIFI
 					sprintf(buffer, "WL%dC:0", wl_channel);
-					if (bitRead(ReefAngel.CEM,CloudWLBit)==1 && wl_channel==0) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
-					if (bitRead(ReefAngel.CEM,CloudMultiWLBit)==1  && wl_channel>0 && wl_channel<5) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
+					if (bitRead(ReefAngel->CEM,CloudWLBit)==1 && wl_channel==0) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
+					if (bitRead(ReefAngel->CEM,CloudMultiWLBit)==1  && wl_channel>0 && wl_channel<5) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
 #endif
 					bDone = true;
 				}
@@ -4197,12 +4197,12 @@ void ReefAngelClass::SetupCalibrateWaterLevel()
 	{
 #ifdef CLOUD_WIFI
 		sprintf(buffer, "WL%dC:2:%d", wl_channel,iO[0]);
-		if (bitRead(ReefAngel.CEM,CloudWLBit)==1 && wl_channel==0) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
-		if (bitRead(ReefAngel.CEM,CloudMultiWLBit)==1  && wl_channel>0 && wl_channel<5) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
+		if (bitRead(ReefAngel->CEM,CloudWLBit)==1 && wl_channel==0) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
+		if (bitRead(ReefAngel->CEM,CloudMultiWLBit)==1  && wl_channel>0 && wl_channel<5) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
 		delay(100);
 		sprintf(buffer, "WL%dC:3:%d", wl_channel,iO[1]);
-		if (bitRead(ReefAngel.CEM,CloudWLBit)==1 && wl_channel==0) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
-		if (bitRead(ReefAngel.CEM,CloudMultiWLBit)==1  && wl_channel>0 && wl_channel<5) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
+		if (bitRead(ReefAngel->CEM,CloudWLBit)==1 && wl_channel==0) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
+		if (bitRead(ReefAngel->CEM,CloudMultiWLBit)==1  && wl_channel>0 && wl_channel<5) { Serial.print(F("CLOUD:")); Serial.println(buffer); }
 #endif
 		// save WaterLevelMin & WaterLevelMax to memory
 		switch ( wl_channel )
@@ -4287,7 +4287,7 @@ void ReefAngelClass::DisplaySetupDateTime()
     wdt_reset();
     #endif//WDT||defined WDT_FORCE
     #if defined wifi||defined ETH_WIZ5100
-    ReefAngel.Network.ReceiveData();
+    ReefAngel->Network.ReceiveData();
     #endif//wifi||defined ETH_WIZ5100
     if(setup_input_render)
     {
@@ -4518,7 +4518,7 @@ void ReefAngelClass::DisplaySetupDateTime24()
     wdt_reset();
     #endif//WDT||defined WDT_FORCE
     #if defined wifi||defined ETH_WIZ5100
-    ReefAngel.Network.ReceiveData();
+    ReefAngel->Network.ReceiveData();
     #endif//wifi||defined ETH_WIZ5100
     if(setup_input_render)
     {

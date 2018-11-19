@@ -115,7 +115,7 @@ class SliderClass
 
 class RATouchMenu {
 public:
-    // Init() must be called before ReefAngel.Init() but before doing anything else
+    // Init() must be called before ReefAngel->Init() but before doing anything else
     void Init();
 
     // Show the main touch interface. This should be called in every loop
@@ -126,7 +126,7 @@ public:
     // to the cloud, etc. This functionality is being moved into separate
     // functions.
     //
-    // Calls ReefAngel.Refresh().
+    // Calls ReefAngel->Refresh().
     void ShowTouchInterface();	
 
     // Process calibration screen mode changes. This used to live in
@@ -170,12 +170,12 @@ private:
 // TODO: Move extension menus into extensions. Note that we use function
 // pointers internally though.
 
-    inline void FeedingModeStart() { ReefAngel.FeedingModeStart(); };
-    inline void WaterChangeModeStart () { ReefAngel.WaterChangeModeStart(); };
-    inline void Reboot() { ReefAngel.Reboot(); };
-    inline void ATOClear() { ReefAngel.ATOClear(); };
-    inline void OverheatClear() { ReefAngel.OverheatClear(); };
-    inline void LeakClear() { ReefAngel.LeakClear(); };
+    inline void FeedingModeStart() { ReefAngel->FeedingModeStart(); };
+    inline void WaterChangeModeStart () { ReefAngel->WaterChangeModeStart(); };
+    inline void Reboot() { ReefAngel->Reboot(); };
+    inline void ATOClear() { ReefAngel->ATOClear(); };
+    inline void OverheatClear() { ReefAngel->OverheatClear(); };
+    inline void LeakClear() { ReefAngel->LeakClear(); };
     void SetupTouchCalibratePH(); 
     void ShowTouchCalibratePH();
     void SetupTouchCalibrateSal();

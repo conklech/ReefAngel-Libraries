@@ -32,9 +32,9 @@ void WiFiAlert::Send(char *message, boolean force)
 	AlertMsg=message;
 
   	Serial.print("GET /status/wifialert.aspx?id=");
-	Serial.print(ReefAngel.Network.portalusername);
+	Serial.print(ReefAngel->Network.portalusername);
 	Serial.print("&key=");
-	Serial.print(ReefAngel.Network.portalkey);
+	Serial.print(ReefAngel->Network.portalkey);
 	Serial.print("&msg=");
 	Serial.println(AlertMsg);
 	Serial.println("\n\n");
@@ -55,9 +55,9 @@ void WiFiAlert::Send(char *message, boolean force)
 	{
 		Serial.println("connected");
 		AlertClient.print("GET /status/wifialert.aspx?id=");
-		AlertClient.print(ReefAngel.Network.portalusername);
+		AlertClient.print(ReefAngel->Network.portalusername);
 		AlertClient.print("&key=");
-		AlertClient.print(ReefAngel.Network.portalkey);
+		AlertClient.print(ReefAngel->Network.portalkey);
 		AlertClient.print("&msg=");
 		AlertClient.println(AlertMsg);
 		AlertClient.println("\n\n");

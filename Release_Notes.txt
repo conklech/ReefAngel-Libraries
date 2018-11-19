@@ -53,20 +53,20 @@ PWM Changes
 
 16Channel Usage Notes:
 
-- To activate 16 Channel dimming module add the line "ReefAngel.Add16ChPWM();" to your INO file somewhere.
+- To activate 16 Channel dimming module add the line "ReefAngel->Add16ChPWM();" to your INO file somewhere.
 - The 16 channel dimmer channels can be used as DCPump channels 
 	Example: DCPump.SIXTEENChExpansionChannel[0]=sync
 - To run slope, parabola, smoothramp, or Sigmoid light profiles you can address them as 
-  	Example: ReefAngel.PWM.SIXTEENChannelPWMSlope();
+  	Example: ReefAngel->PWM.SIXTEENChannelPWMSlope();
 - To set the channel values directly in your INO file using a profile you have written or using one of the
   profiles in Globals you can do it as:
-	Example: ReefAngel.PWM.Set16Channel(channel,percent);
+	Example: ReefAngel->PWM.Set16Channel(channel,percent);
 
 Higher Resolution Usage Notes:
 
 - To set the channel value if you want to make sure that you are using all 4095 levels of dimming you can use 
   the "HighRes" and Raw versions in Globals and in PWM, respectively.
-	Example: ReefAngel.PWM.SetChannelRaw(0,PWMSigmoidHighRes(startHour,startMinute,endHour,endMinute,startPWM,endPWM,0))
+	Example: ReefAngel->PWM.SetChannelRaw(0,PWMSigmoidHighRes(startHour,startMinute,endHour,endMinute,startPWM,endPWM,0))
 - Note that the 16 channel dimmer and newer versions of the 6 channel dimmer support 12 bits (4095), other dimmers
   support 8 bits (255).  Values used to be set internally based upon percents, which was 100 levels of dimming.  The 
   difference won't be noticeable except at very dim levels.

@@ -53,10 +53,10 @@ public:
     void Override(byte type);
     void Toggle();
 	void Set(bool status);
-	inline void Write() { ReefAngel.Relay.Write(); }
-	inline bool Status() { return ReefAngel.Relay.Status(ID); }
-	inline bool isMaskOn() { return ReefAngel.Relay.isMaskOn(ID); }
-    inline bool isMaskOff() { return ReefAngel.Relay.isMaskOff(ID); }
+	inline void Write() { ReefAngel->Relay.Write(); }
+	inline bool Status() { return ReefAngel->Relay.Status(ID); }
+	inline bool isMaskOn() { return ReefAngel->Relay.isMaskOn(ID); }
+    inline bool isMaskOff() { return ReefAngel->Relay.isMaskOff(ID); }
 
 	inline bool IsRunning() { return running; }
 	inline bool IsStarted() { return started; }

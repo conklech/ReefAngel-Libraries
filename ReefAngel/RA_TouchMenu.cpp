@@ -15,7 +15,7 @@ void RATouchMenu::Init()
 	NeedsRedraw=true;
 	Sleeping=false;
 	#if not defined NOSD
-	if (ReefAngel.SDFound)
+	if (ReefAngel->SDFound)
 	{
 		if (orientation%2==0)
 			TouchLCD.DrawSDRawImage("splash_l.raw",0,0,320,240);
@@ -42,7 +42,7 @@ void RATouchMenu::Init()
 	Slider.Create(COLOR_ROYALBLUE,COLOR_RED,"");
 	Slider.SetPosition(0,50);
 	Slider.Refresh();
-	ReefAngel.WDTReset();
+	ReefAngel->WDTReset();
 
 	for(int a=0;a<6;a++) PB[a].Create(COLOR_BLACK,COLOR_WHITE,COLOR_BLACK,"");
 	MenuFunctionPtr=&RATouchMenu::Touch; // default pointer
@@ -104,18 +104,18 @@ void RATouchMenu::ShowNoInternalMemoryError()
 
 void RATouchMenu::LightsOn()
 {
-	ReefAngel.LightsOn();
+	ReefAngel->LightsOn();
 	menu_button_functions1[2] = &RATouchMenu::LightsOff;
-	if (ReefAngel.DisplayedMenu==TOUCH_MENU)
-		ReefAngel.SetDisplayedMenu(DEFAULT_MENU);
+	if (ReefAngel->DisplayedMenu==TOUCH_MENU)
+		ReefAngel->SetDisplayedMenu(DEFAULT_MENU);
 }
 
 void RATouchMenu::LightsOff()
 {
-	ReefAngel.LightsOff();
+	ReefAngel->LightsOff();
 	menu_button_functions1[2] = &RATouchMenu::LightsOn;
-	if (ReefAngel.DisplayedMenu==TOUCH_MENU)
-		ReefAngel.SetDisplayedMenu(DEFAULT_MENU);
+	if (ReefAngel->DisplayedMenu==TOUCH_MENU)
+		ReefAngel->SetDisplayedMenu(DEFAULT_MENU);
 }
 
 
@@ -145,7 +145,7 @@ void RATouchMenu::CalibrateTouchScreen()
 	SetOrientation(1);
 	while (!calibrated)
 	{
-		ReefAngel.WDTReset();
+		ReefAngel->WDTReset();
 		TouchLCD.FullClear(COLOR_WHITE);
 		LargeFont.SetColor(COLOR_GOLD,COLOR_WHITE,true);
 		LargeFont.DrawCenterTextP(120,45,CALI1);
@@ -197,7 +197,7 @@ void RATouchMenu::CalibrateTouchScreen()
 	OkButton.Show();
 	do
 	{
-		ReefAngel.WDTReset();
+		ReefAngel->WDTReset();
 		TS.GetTouch();
 	}
 	while(!OkButton.IsPressed());
@@ -208,14 +208,14 @@ void RATouchMenu::CalibrateTouchScreen()
 
 void RATouchMenu::ChangeDisplayedScreen(signed char index)
 {
-	ReefAngel.WDTReset();
+	ReefAngel->WDTReset();
 	NeedsRedraw=true;
 	if (millis()-lastDisplayChange>200)
 	{
 		lastDisplayChange=millis();
 		DisplayedScreen+=index;
 	}
-	if (ReefAngel.DisplayedMenu==TOUCH_MENU)
+	if (ReefAngel->DisplayedMenu==TOUCH_MENU)
 	{
 		if (DisplayedScreen<0) DisplayedScreen=MAX_MENU_SCREENS-1;
 		if (DisplayedScreen>=MAX_MENU_SCREENS) DisplayedScreen=0;
@@ -224,7 +224,7 @@ void RATouchMenu::ChangeDisplayedScreen(signed char index)
 	{
 		int cvarcheck=0;
 		if (DisplayedScreen<0) DisplayedScreen=MAX_SCREENS-1;
-		if (ReefAngel.Board==RAStar && DisplayedScreen==RELAY_BOX) DisplayedScreen+=index;
+		if (ReefAngel->Board==RAStar && DisplayedScreen==RELAY_BOX) DisplayedScreen+=index;
 #ifdef CUSTOM_VARIABLES
 		for ( byte EID = 0; EID < 8; EID++ )
 			cvarcheck+=CustomVar[EID];
@@ -237,16 +237,16 @@ void RATouchMenu::ChangeDisplayedScreen(signed char index)
 				{
 					if (a<PWM_SCREEN)
 					{
-						if (bitRead(ReefAngel.REM,a-EXP_BOX_1)) break;
+						if (bitRead(ReefAngel->REM,a-EXP_BOX_1)) break;
 					}
 					else
 					{
-						if (a==PWM_SCREEN && bitRead(ReefAngel.EM,0)) break;
-						if (a==RF_SCREEN && bitRead(ReefAngel.EM,1)) break;
-						if (a==RF_SCREEN1 && bitRead(ReefAngel.EM,1)) break;
-						if (a==AI_SCREEN && bitRead(ReefAngel.EM,2)) break;
-						if (a==IO_SCREEN && bitRead(ReefAngel.EM,5)) break;
-						if (a==DCPUMP_SCREEN && bitRead(ReefAngel.EM1,1)) break;
+						if (a==PWM_SCREEN && bitRead(ReefAngel->EM,0)) break;
+						if (a==RF_SCREEN && bitRead(ReefAngel->EM,1)) break;
+						if (a==RF_SCREEN1 && bitRead(ReefAngel->EM,1)) break;
+						if (a==AI_SCREEN && bitRead(ReefAngel->EM,2)) break;
+						if (a==IO_SCREEN && bitRead(ReefAngel->EM,5)) break;
+						if (a==DCPUMP_SCREEN && bitRead(ReefAngel->EM1,1)) break;
 						if (a==CVAR_SCREEN && cvarcheck) break;
 						if (a==STATUS_SCREEN) break;
 						if (a==ALERT_SCREEN) break;
@@ -260,16 +260,16 @@ void RATouchMenu::ChangeDisplayedScreen(signed char index)
 				{
 					if (a<PWM_SCREEN)
 					{
-						if (bitRead(ReefAngel.REM,a-EXP_BOX_1)) break;
+						if (bitRead(ReefAngel->REM,a-EXP_BOX_1)) break;
 					}
 					else
 					{
-						if (a==PWM_SCREEN && bitRead(ReefAngel.EM,0)) break;
-						if (a==RF_SCREEN && bitRead(ReefAngel.EM,1)) break;
-						if (a==RF_SCREEN1 && bitRead(ReefAngel.EM,1)) break;
-						if (a==AI_SCREEN && bitRead(ReefAngel.EM,2)) break;
-						if (a==IO_SCREEN && bitRead(ReefAngel.EM,5)) break;
-						if (a==DCPUMP_SCREEN && bitRead(ReefAngel.EM1,1)) break;
+						if (a==PWM_SCREEN && bitRead(ReefAngel->EM,0)) break;
+						if (a==RF_SCREEN && bitRead(ReefAngel->EM,1)) break;
+						if (a==RF_SCREEN1 && bitRead(ReefAngel->EM,1)) break;
+						if (a==AI_SCREEN && bitRead(ReefAngel->EM,2)) break;
+						if (a==IO_SCREEN && bitRead(ReefAngel->EM,5)) break;
+						if (a==DCPUMP_SCREEN && bitRead(ReefAngel->EM1,1)) break;
 						if (a==CVAR_SCREEN && cvarcheck) break;
 						if (a==STATUS_SCREEN) break;
 						if (a==ALERT_SCREEN) break;
@@ -293,8 +293,8 @@ void RATouchMenu::ResetScreenSaver()
 {
 	// turn the backlight on
 	TouchLCD.SetBacklight(100);
-	ReefAngel.Timer[LCD_TIMER].SetInterval(InternalMemory.LCDTimer_read());  // LCD Sleep Mode timer
-	ReefAngel.Timer[LCD_TIMER].Start();  // start timer
+	ReefAngel->Timer[LCD_TIMER].SetInterval(InternalMemory.LCDTimer_read());  // LCD Sleep Mode timer
+	ReefAngel->Timer[LCD_TIMER].Start();  // start timer
 
 }
 
@@ -304,7 +304,7 @@ void RATouchMenu::SetupTouchDateTime()
 
 	twidth=TouchLCD.GetWidth();
 	theight=TouchLCD.GetHeight();
-	ReefAngel.SetDisplayedMenu(DATE_TIME_MENU);
+	ReefAngel->SetDisplayedMenu(DATE_TIME_MENU);
 	TouchLCD.FullClear(COLOR_WHITE);
 	LargeFont.SetColor(COLOR_BLACK, COLOR_WHITE,false);
 	LargeFont.DrawCenterTextP(TouchLCD.GetWidth()/2+1, 6, MENU_BUTTON_DATETIME);
@@ -346,7 +346,7 @@ void RATouchMenu::SetupTouchCalibratePH()
 
 	twidth=TouchLCD.GetWidth();
 	theight=TouchLCD.GetHeight();
-	ReefAngel.SetDisplayedMenu(PH_CALIBRATE_MENU);
+	ReefAngel->SetDisplayedMenu(PH_CALIBRATE_MENU);
 	TouchLCD.FullClear(COLOR_WHITE);
 	LargeFont.SetColor(COLOR_BLACK, COLOR_WHITE,false);
 	LargeFont.DrawCenterTextP(twidth/2+1, 6, MENU_BUTTON_PH);
@@ -412,7 +412,7 @@ void RATouchMenu::ShowTouchCalibratePH()
 			{
 				p += analogRead(PHPin);
 				delay(50);
-				ReefAngel.WDTReset();
+				ReefAngel->WDTReset();
 			}
 			p /= 60;
 			CalVal1 = p;
@@ -477,7 +477,7 @@ void RATouchMenu::ShowTouchCalibratePH()
 			{
 				p += analogRead(PHPin);
 				delay(50);
-				ReefAngel.WDTReset();
+				ReefAngel->WDTReset();
 			}
 			p /= 60;
 			CalVal2 = p;
@@ -519,9 +519,9 @@ void RATouchMenu::ShowTouchCalibratePH()
 			Font.SetColor(COLOR_BLACK, COLOR_WHITE, false);
 			Font.DrawCenterTextP(twidth / 2, theight / 2, PH_CALI14);
 			InternalMemory.PHMin_write(CalVal1);
-			ReefAngel.PHMin = CalVal1;
+			ReefAngel->PHMin = CalVal1;
 			InternalMemory.PHMax_write(CalVal2);
-			ReefAngel.PHMax = CalVal2;
+			ReefAngel->PHMax = CalVal2;
 			CalStep++;
 		}
 		break;
@@ -540,7 +540,7 @@ void RATouchMenu::SetupTouchCalibrateSal()
 
 	twidth=TouchLCD.GetWidth();
 	theight=TouchLCD.GetHeight();
-	ReefAngel.SetDisplayedMenu(SAL_CALIBRATE_MENU);
+	ReefAngel->SetDisplayedMenu(SAL_CALIBRATE_MENU);
 	TouchLCD.FullClear(COLOR_WHITE);
 	LargeFont.SetColor(COLOR_BLACK, COLOR_WHITE,false);
 	LargeFont.DrawCenterTextP(twidth/2+1, 6, MENU_BUTTON_SALINITY);
@@ -572,7 +572,7 @@ void RATouchMenu::SetupTouchCalibrateSal()
 	CancelButton.SetPosition(twidth*3/4-60,theight*17/20);
 	CancelButton.Show();
 	TouchEnabled=true;
-	if (bitRead(ReefAngel.CEM,CloudSalinityBit)==1) ReefAngel.Network.CloudPublish("SALC:1");
+	if (bitRead(ReefAngel->CEM,CloudSalinityBit)==1) ReefAngel->Network.CloudPublish("SALC:1");
 }
 
 
@@ -587,7 +587,7 @@ void RATouchMenu::ShowTouchCalibrateSal()
 			if (CancelButton.IsPressed())
 			{
 				ShowTouchMenu(CALIBRATE_MENU_SCREEN);
-				ReefAngel.Network.CloudPublish("SALC:0");
+				ReefAngel->Network.CloudPublish("SALC:0");
 			}
 		}
 
@@ -613,13 +613,13 @@ void RATouchMenu::ShowTouchCalibrateSal()
 			if (t==0)
 			{
 				Font.DrawCenterTextP(twidth/2,theight/2,PH_CALI6);
-				if (bitRead(ReefAngel.CEM,CloudSalinityBit)==0)
+				if (bitRead(ReefAngel->CEM,CloudSalinityBit)==0)
 				{
 					for (int a=0;a<60;a++)
 					{
 						p+=Salinity.Read();
 						delay(50);
-						ReefAngel.WDTReset();
+						ReefAngel->WDTReset();
 					}
 					p/=60;
 					CalVal1=p;
@@ -666,11 +666,11 @@ void RATouchMenu::ShowTouchCalibrateSal()
 				InternalMemory.SalMax_write(CalVal1);
 				SalMax = CalVal1;
 				CalStep++;
-				if (bitRead(ReefAngel.CEM,CloudSalinityBit)==1)
+				if (bitRead(ReefAngel->CEM,CloudSalinityBit)==1)
 				{
 					char buffer[16];
 					sprintf(buffer, "SALC:2:%d", CalVal1);
-					ReefAngel.Network.CloudPublish(buffer);
+					ReefAngel->Network.CloudPublish(buffer);
 				}
 			}
 			break;
@@ -690,7 +690,7 @@ void RATouchMenu::SetupTouchCalibrateORP()
 
 	twidth=TouchLCD.GetWidth();
 	theight=TouchLCD.GetHeight();
-	ReefAngel.SetDisplayedMenu(ORP_CALIBRATE_MENU);
+	ReefAngel->SetDisplayedMenu(ORP_CALIBRATE_MENU);
 	TouchLCD.FullClear(COLOR_WHITE);
 	LargeFont.SetColor(COLOR_BLACK, COLOR_WHITE,false);
 	LargeFont.DrawCenterTextP(twidth/2+1, 6, MENU_BUTTON_ORP);
@@ -718,7 +718,7 @@ void RATouchMenu::SetupTouchCalibrateORP()
 	CancelButton.SetPosition(twidth*3/4-60,theight*17/20);
 	CancelButton.Show();
 	TouchEnabled=true;
-	if (bitRead(ReefAngel.CEM,CloudORPBit)==1) ReefAngel.Network.CloudPublish("ORPC:1");
+	if (bitRead(ReefAngel->CEM,CloudORPBit)==1) ReefAngel->Network.CloudPublish("ORPC:1");
 }
 
 void RATouchMenu::ShowTouchCalibrateORP()
@@ -732,7 +732,7 @@ void RATouchMenu::ShowTouchCalibrateORP()
 			if (CancelButton.IsPressed())
 			{
 				ShowTouchMenu(CALIBRATE_MENU_SCREEN);
-				ReefAngel.Network.CloudPublish("ORPC:0");
+				ReefAngel->Network.CloudPublish("ORPC:0");
 			}
 		}
 #ifdef ORPEXPANSION
@@ -757,13 +757,13 @@ void RATouchMenu::ShowTouchCalibrateORP()
 			if (t==0)
 			{
 				Font.DrawCenterTextP(twidth/2,theight/2,PH_CALI6);
-				if (bitRead(ReefAngel.CEM,CloudORPBit)==0)
+				if (bitRead(ReefAngel->CEM,CloudORPBit)==0)
 				{
 					for (int a=0;a<60;a++)
 					{
 						p+=ORP.Read();
 						delay(50);
-						ReefAngel.WDTReset();
+						ReefAngel->WDTReset();
 					}
 					p/=60;
 					CalVal1=p;
@@ -829,13 +829,13 @@ void RATouchMenu::ShowTouchCalibrateORP()
 			if (t==0)
 			{
 				Font.DrawCenterTextP(twidth/2,theight/2,PH_CALI6);
-				if (bitRead(ReefAngel.CEM,CloudORPBit)==0)
+				if (bitRead(ReefAngel->CEM,CloudORPBit)==0)
 				{
 					for (int a=0;a<60;a++)
 					{
 						p+=ORP.Read();
 						delay(50);
-						ReefAngel.WDTReset();
+						ReefAngel->WDTReset();
 					}
 					p/=60;
 					CalVal2=p;
@@ -887,13 +887,13 @@ void RATouchMenu::ShowTouchCalibrateORP()
 				InternalMemory.ORPMax_write(CalVal2);
 				ORPMax = CalVal2;
 				CalStep++;
-				if (bitRead(ReefAngel.CEM,CloudORPBit)==1)
+				if (bitRead(ReefAngel->CEM,CloudORPBit)==1)
 				{
 					char buffer[16];
 					sprintf(buffer, "ORPC:2:%d", CalVal1);
-					ReefAngel.Network.CloudPublish(buffer);
+					ReefAngel->Network.CloudPublish(buffer);
 					sprintf(buffer, "ORPC:3:%d", CalVal2);
-					ReefAngel.Network.CloudPublish(buffer);
+					ReefAngel->Network.CloudPublish(buffer);
 				}
 			}
 			break;
@@ -913,7 +913,7 @@ void RATouchMenu::SetupTouchCalibratePHExp()
 
 	twidth=TouchLCD.GetWidth();
 	theight=TouchLCD.GetHeight();
-	ReefAngel.SetDisplayedMenu(PHE_CALIBRATE_MENU);
+	ReefAngel->SetDisplayedMenu(PHE_CALIBRATE_MENU);
 	TouchLCD.FullClear(COLOR_WHITE);
 	LargeFont.SetColor(COLOR_BLACK, COLOR_WHITE,false);
 	LargeFont.DrawCenterTextP(twidth/2+1, 6, MENU_BUTTON_PHE);
@@ -945,7 +945,7 @@ void RATouchMenu::SetupTouchCalibratePHExp()
 	CancelButton.SetPosition(twidth*3/4-60,theight*17/20);
 	CancelButton.Show();
 	TouchEnabled=true;
-	if (bitRead(ReefAngel.CEM,CloudPHExpBit)==1) ReefAngel.Network.CloudPublish("PHEC:1");
+	if (bitRead(ReefAngel->CEM,CloudPHExpBit)==1) ReefAngel->Network.CloudPublish("PHEC:1");
 }
 
 void RATouchMenu::ShowTouchCalibratePHExp()
@@ -960,7 +960,7 @@ void RATouchMenu::ShowTouchCalibratePHExp()
 			if (CancelButton.IsPressed())
 			{
 				ShowTouchMenu(CALIBRATE_MENU_SCREEN);
-				ReefAngel.Network.CloudPublish("PHEC:0");
+				ReefAngel->Network.CloudPublish("PHEC:0");
 			}
 		}
 #ifdef PHEXPANSION
@@ -984,13 +984,13 @@ void RATouchMenu::ShowTouchCalibratePHExp()
 			if (t==0)
 			{
 				Font.DrawCenterTextP(twidth/2,theight/2,PH_CALI6);
-				if (bitRead(ReefAngel.CEM,CloudPHExpBit)==0)
+				if (bitRead(ReefAngel->CEM,CloudPHExpBit)==0)
 				{
 					for (int a=0;a<60;a++)
 					{
 						p+=PH.Read();
 						delay(50);
-						ReefAngel.WDTReset();
+						ReefAngel->WDTReset();
 					}
 					p/=60;
 					CalVal1=p;
@@ -1056,13 +1056,13 @@ void RATouchMenu::ShowTouchCalibratePHExp()
 			if (t==0)
 			{
 				Font.DrawCenterTextP(twidth/2,theight/2,PH_CALI6);
-				if (bitRead(ReefAngel.CEM,CloudPHExpBit)==0)
+				if (bitRead(ReefAngel->CEM,CloudPHExpBit)==0)
 				{
 					for (int a=0;a<60;a++)
 					{
 						p+=PH.Read();
 						delay(50);
-						ReefAngel.WDTReset();
+						ReefAngel->WDTReset();
 					}
 					p/=60;
 					CalVal2=p;
@@ -1113,13 +1113,13 @@ void RATouchMenu::ShowTouchCalibratePHExp()
 				InternalMemory.PHExpMax_write(CalVal2);
 				PHExpMax = CalVal2;
 				CalStep++;
-				if (bitRead(ReefAngel.CEM,CloudPHExpBit)==1)
+				if (bitRead(ReefAngel->CEM,CloudPHExpBit)==1)
 				{
 					char buffer[16];
 					sprintf(buffer, "PHEC:2:%d", CalVal1);
-					ReefAngel.Network.CloudPublish(buffer);
+					ReefAngel->Network.CloudPublish(buffer);
 					sprintf(buffer, "PHEC:3:%d", CalVal2);
-					ReefAngel.Network.CloudPublish(buffer);
+					ReefAngel->Network.CloudPublish(buffer);
 				}
 			}
 			break;
@@ -1139,7 +1139,7 @@ void RATouchMenu::SetupTouchCalibrateWL(byte channel)
 
 	twidth=TouchLCD.GetWidth();
 	theight=TouchLCD.GetHeight();
-	ReefAngel.SetDisplayedMenu(WL_CALIBRATE_MENU+channel);
+	ReefAngel->SetDisplayedMenu(WL_CALIBRATE_MENU+channel);
 	TouchLCD.FullClear(COLOR_WHITE);
 	LargeFont.SetColor(COLOR_BLACK, COLOR_WHITE,false);
 	LargeFont.DrawCenterTextP(twidth/2+1, 6, MENU_BUTTON_WL);
@@ -1172,8 +1172,8 @@ void RATouchMenu::SetupTouchCalibrateWL(byte channel)
 	TouchEnabled=true;
 	char buffer[7];
 	sprintf(buffer, "WL%dC:1", channel);
-	if (bitRead(ReefAngel.CEM,CloudWLBit)==1 && channel==0) ReefAngel.Network.CloudPublish(buffer);
-	if (bitRead(ReefAngel.CEM,CloudMultiWLBit)==1  && channel>0 && channel<5) ReefAngel.Network.CloudPublish(buffer);
+	if (bitRead(ReefAngel->CEM,CloudWLBit)==1 && channel==0) ReefAngel->Network.CloudPublish(buffer);
+	if (bitRead(ReefAngel->CEM,CloudMultiWLBit)==1  && channel>0 && channel<5) ReefAngel->Network.CloudPublish(buffer);
 }
 
 void RATouchMenu::ShowTouchCalibrateWL(byte channel)
@@ -1190,7 +1190,7 @@ void RATouchMenu::ShowTouchCalibrateWL(byte channel)
 				ShowTouchMenu(CALIBRATE_MENU_SCREEN);
 				char buffer[7];
 				sprintf(buffer, "WL%dC:0", channel);
-				ReefAngel.Network.CloudPublish(buffer);
+				ReefAngel->Network.CloudPublish(buffer);
 			}
 		}
 #if defined WATERLEVELEXPANSION || defined MULTIWATERLEVELEXPANSION
@@ -1214,24 +1214,24 @@ void RATouchMenu::ShowTouchCalibrateWL(byte channel)
 			if (t==0)
 			{
 				Font.DrawCenterTextP(twidth/2,theight/2,PH_CALI6);
-				if (bitRead(ReefAngel.CEM,CloudWLBit)==0 && channel==0)
+				if (bitRead(ReefAngel->CEM,CloudWLBit)==0 && channel==0)
 				{
 					for (int a=0;a<60;a++)
 					{
 						p+=WaterLevel.Read();
 						delay(50);
-						ReefAngel.WDTReset();
+						ReefAngel->WDTReset();
 					}
 					p/=60;
 					CalVal1=p;
 				}
-				else if (bitRead(ReefAngel.CEM,CloudMultiWLBit)==0 && channel>0 && channel<5)
+				else if (bitRead(ReefAngel->CEM,CloudMultiWLBit)==0 && channel>0 && channel<5)
 				{
 					for (int a=0;a<60;a++)
 					{
 						p+=WaterLevel.Read(channel);
 						delay(50);
-						ReefAngel.WDTReset();
+						ReefAngel->WDTReset();
 					}
 					p/=60;
 					CalVal1=p;
@@ -1284,24 +1284,24 @@ void RATouchMenu::ShowTouchCalibrateWL(byte channel)
 			if (t==0)
 			{
 				Font.DrawCenterTextP(twidth/2,theight/2,PH_CALI6);
-				if (bitRead(ReefAngel.CEM,CloudWLBit)==0 && channel==0)
+				if (bitRead(ReefAngel->CEM,CloudWLBit)==0 && channel==0)
 				{
 					for (int a=0;a<60;a++)
 					{
 						p+=WaterLevel.Read();
 						delay(50);
-						ReefAngel.WDTReset();
+						ReefAngel->WDTReset();
 					}
 					p/=60;
 					CalVal2=p;
 				}
-				else if (bitRead(ReefAngel.CEM,CloudMultiWLBit)==0 && channel>0 && channel<5)
+				else if (bitRead(ReefAngel->CEM,CloudMultiWLBit)==0 && channel>0 && channel<5)
 				{
 					for (int a=0;a<60;a++)
 					{
 						p+=WaterLevel.Read(channel);
 						delay(50);
-						ReefAngel.WDTReset();
+						ReefAngel->WDTReset();
 					}
 					p/=60;
 					CalVal2=p;
@@ -1373,13 +1373,13 @@ void RATouchMenu::ShowTouchCalibrateWL(byte channel)
 					InternalMemory.WaterLevel4Max_write(CalVal2);
 				}
 				CalStep++;
-				if ((bitRead(ReefAngel.CEM,CloudWLBit)==1 && channel==0) || (bitRead(ReefAngel.CEM,CloudMultiWLBit)==1 && channel>0 && channel<5))
+				if ((bitRead(ReefAngel->CEM,CloudWLBit)==1 && channel==0) || (bitRead(ReefAngel->CEM,CloudMultiWLBit)==1 && channel>0 && channel<5))
 				{
 					char buffer[16];
 					sprintf(buffer, "WL%dC:2:%d", channel, CalVal1);
-					ReefAngel.Network.CloudPublish(buffer);
+					ReefAngel->Network.CloudPublish(buffer);
 					sprintf(buffer, "WL%dC:3:%d", channel, CalVal2);
-					ReefAngel.Network.CloudPublish(buffer);
+					ReefAngel->Network.CloudPublish(buffer);
 				}
 			}
 			break;
@@ -1399,7 +1399,7 @@ void RATouchMenu::SetupTouchCalibrateCustom(byte index)
 
 	twidth=TouchLCD.GetWidth();
 	theight=TouchLCD.GetHeight();
-	ReefAngel.SetDisplayedMenu(CUSTOM1_CALIBRATE_MENU+index);
+	ReefAngel->SetDisplayedMenu(CUSTOM1_CALIBRATE_MENU+index);
 	TouchLCD.FullClear(COLOR_WHITE);
 	LargeFont.SetColor(COLOR_BLACK, COLOR_WHITE,false);
 	LargeFont.DrawCenterTextP(twidth/2+1, 6, MENU_BUTTON_CEXP);
@@ -1430,7 +1430,7 @@ void RATouchMenu::SetupTouchCalibrateCustom(byte index)
 	TouchEnabled=true;
 	char buffer[9];
 	sprintf(buffer, "CEXP%dC:1", index);
-	ReefAngel.Network.CloudPublish(buffer);
+	ReefAngel->Network.CloudPublish(buffer);
 }
 
 void RATouchMenu::ShowTouchCalibrateCustom(byte index)
@@ -1447,7 +1447,7 @@ void RATouchMenu::ShowTouchCalibrateCustom(byte index)
 				ShowTouchMenu(CALIBRATE_MENU_SCREEN);
 				char buffer[9];
 				sprintf(buffer, "CEXP%dC:0", index);
-				ReefAngel.Network.CloudPublish(buffer);
+				ReefAngel->Network.CloudPublish(buffer);
 			}
 		}
 		switch(CalStep)
@@ -1470,7 +1470,7 @@ void RATouchMenu::ShowTouchCalibrateCustom(byte index)
 			if (t==0)
 			{
 				Font.DrawCenterTextP(twidth/2,theight/2,PH_CALI6);
-				CalVal1=ReefAngel.CloudCalVal;
+				CalVal1=ReefAngel->CloudCalVal;
 				CalStep++;
 			}
 			break;
@@ -1527,7 +1527,7 @@ void RATouchMenu::ShowTouchCalibrateCustom(byte index)
 			if (t==0)
 			{
 				Font.DrawCenterTextP(twidth/2,theight/2,PH_CALI6);
-				CalVal2=ReefAngel.CloudCalVal;
+				CalVal2=ReefAngel->CloudCalVal;
 				CalStep++;
 			}
 			break;
@@ -1566,9 +1566,9 @@ void RATouchMenu::ShowTouchCalibrateCustom(byte index)
 				CalStep++;
 				char buffer[16];
 				sprintf(buffer, "CEXP%dC:2:%d", index, CalVal1);
-				ReefAngel.Network.CloudPublish(buffer);
+				ReefAngel->Network.CloudPublish(buffer);
 				sprintf(buffer, "CEXP%dC:3:%d", index, CalVal2);
-				ReefAngel.Network.CloudPublish(buffer);
+				ReefAngel->Network.CloudPublish(buffer);
 			}
 			break;
 		case 10:
@@ -1584,7 +1584,7 @@ void RATouchMenu::CheckMenuTimeout()
 {
 	if ( (now() - menutimeout) > MENU_TIMEOUT )
 	{
-		ReefAngel.SetDisplayedMenu(DEFAULT_MENU);
+		ReefAngel->SetDisplayedMenu(DEFAULT_MENU);
 		DisplayedScreen=MAIN_SCREEN;
 		NeedsRedraw=true;
 		ResetScreenSaver();
@@ -1597,7 +1597,7 @@ void RATouchMenu::CheckMenuTimeout()
 void RATouchMenu::ShowTouchMenu(byte index)
 {
 	menutimeout=now();
-	ReefAngel.SetDisplayedMenu(TOUCH_MENU);
+	ReefAngel->SetDisplayedMenu(TOUCH_MENU);
 	DisplayedScreen=index;
 	NeedsRedraw=true;
 	ReDrawScreen();
@@ -1605,7 +1605,7 @@ void RATouchMenu::ShowTouchMenu(byte index)
 
 void RATouchMenu::HandleCalibrationChangeMode() // TODO: Pull non-touchscreen code out of HandleCalibrationChangeMode
 {
-	switch (ReefAngel.ChangeMode)
+	switch (ReefAngel->ChangeMode)
 	{
 	case PH_CALIBRATE_MENU:
 #if defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR
@@ -1655,12 +1655,12 @@ void RATouchMenu::HandleCalibrationChangeMode() // TODO: Pull non-touchscreen co
 		break;
 #endif // WATERLEVELEXPANSION || MULTIWATERLEVELEXPANSION
 	}
-	ReefAngel.ChangeMode=0;
+	ReefAngel->ChangeMode=0;
 }
 
 void RATouchMenu::ShowTouchInterface() // TODO: Move non-interface actions out of TouchMenu
 {
-	ReefAngel.Refresh();
+	ReefAngel->Refresh();
 	HandleCalibrationChangeMode();
 	DrawTouchInterface();
 
@@ -1677,18 +1677,18 @@ void RATouchMenu::DrawTouchInterface()
 		NeedsRedraw=true;
 	}
 	byte numexp=0;
-	if ((ReefAngel.EM&(1<<3))!=0) numexp++;
-	if ((ReefAngel.EM&(1<<4))!=0) numexp++;
-	if ((ReefAngel.EM&(1<<6))!=0) numexp++;
-	if ((ReefAngel.EM&(1<<7))!=0) numexp++;
+	if ((ReefAngel->EM&(1<<3))!=0) numexp++;
+	if ((ReefAngel->EM&(1<<4))!=0) numexp++;
+	if ((ReefAngel->EM&(1<<6))!=0) numexp++;
+	if ((ReefAngel->EM&(1<<7))!=0) numexp++;
 
-	switch ( ReefAngel.DisplayedMenu )
+	switch ( ReefAngel->DisplayedMenu )
 	{
 	case MAIN_MENU:
 	case DEFAULT_MENU:  // This is the home screen
 	{
 		// process screensaver timeout
-		if ( ReefAngel.Timer[LCD_TIMER].IsTriggered() )
+		if ( ReefAngel->Timer[LCD_TIMER].IsTriggered() )
 		{
 			// Screensaver timeout expired
 			TouchLCD.SetBacklight(0);
@@ -1713,11 +1713,11 @@ void RATouchMenu::DrawTouchInterface()
 		int t;
 		byte y;
 		bool bDone = false;
-		t = ReefAngel.Timer[FEEDING_TIMER].Trigger - now();
-		if ( (t >= 0) && ! ReefAngel.Timer[FEEDING_TIMER].IsTriggered() )
+		t = ReefAngel->Timer[FEEDING_TIMER].Trigger - now();
+		if ( (t >= 0) && ! ReefAngel->Timer[FEEDING_TIMER].IsTriggered() )
 		{
 			if (orientation%2==0) y=0; else y=40;
-			ReefAngel.WDTReset();
+			ReefAngel->WDTReset();
 			if (NeedsRedraw)
 			{
 				delay(50);
@@ -1725,11 +1725,11 @@ void RATouchMenu::DrawTouchInterface()
 				TouchLCD.SetBacklight(0);
 				if (orientation%2==0)
 				{
-					if (ReefAngel.SDFound) TouchLCD.DrawSDRawImage("feed_l.raw",0,80,320,160);
+					if (ReefAngel->SDFound) TouchLCD.DrawSDRawImage("feed_l.raw",0,80,320,160);
 				}
 				else
 				{
-					if (ReefAngel.SDFound) TouchLCD.DrawSDRawImage("feed_p.raw",0,160,240,160);
+					if (ReefAngel->SDFound) TouchLCD.DrawSDRawImage("feed_p.raw",0,160,240,160);
 				}
 				TouchLCD.SetBacklight(100);
 				LargeFont.SetColor(WARNING_TEXT, BKCOLOR,false);
@@ -1755,7 +1755,7 @@ void RATouchMenu::DrawTouchInterface()
 		if ( bDone )
 		{
 			// we're finished, so let's clear the screen and return
-			ReefAngel.FeedingModeEnd();
+			ReefAngel->FeedingModeEnd();
 			NeedsRedraw=true;
 			ExitMenu();
 		}
@@ -1766,18 +1766,18 @@ void RATouchMenu::DrawTouchInterface()
 		byte y;
 		bool bDone = false;
 		if (orientation%2==0) y=0; else y=40;
-		ReefAngel.WDTReset();
+		ReefAngel->WDTReset();
 		if (NeedsRedraw)
 		{
 			TouchLCD.FullClear(BKCOLOR);
 			TouchLCD.SetBacklight(0);
 			if (orientation%2==0)
 			{
-				if (ReefAngel.SDFound) TouchLCD.DrawSDRawImage("water_l.raw",0,40,320,200);
+				if (ReefAngel->SDFound) TouchLCD.DrawSDRawImage("water_l.raw",0,40,320,200);
 			}
 			else
 			{
-				if (ReefAngel.SDFound) TouchLCD.DrawSDRawImage("water_p.raw",0,170,240,150);
+				if (ReefAngel->SDFound) TouchLCD.DrawSDRawImage("water_p.raw",0,170,240,150);
 			}
 			TouchLCD.SetBacklight(100);
 			NeedsRedraw=false;
@@ -1930,7 +1930,7 @@ void RATouchMenu::DrawTouchInterface()
 	case WL3_CALIBRATE_MENU:
 	case WL4_CALIBRATE_MENU:
 	{
-		ShowTouchCalibrateWL(ReefAngel.DisplayedMenu-WL_CALIBRATE_MENU);
+		ShowTouchCalibrateWL(ReefAngel->DisplayedMenu-WL_CALIBRATE_MENU);
 		break;
 	}
 	case CUSTOM1_CALIBRATE_MENU:
@@ -1942,7 +1942,7 @@ void RATouchMenu::DrawTouchInterface()
 	case CUSTOM7_CALIBRATE_MENU:
 	case CUSTOM8_CALIBRATE_MENU:
 	{
-		ShowTouchCalibrateCustom(ReefAngel.DisplayedMenu-CUSTOM1_CALIBRATE_MENU);
+		ShowTouchCalibrateCustom(ReefAngel->DisplayedMenu-CUSTOM1_CALIBRATE_MENU);
 		break;
 	}
 #ifdef CUSTOM_MENU
@@ -1979,13 +1979,13 @@ void RATouchMenu::DrawTouchInterface()
 			// Here there was previously showmenu = true; not clear whether/how to implement.
 			NeedsRedraw = true;
 			
-			ReefAngel.Timer[FEEDING_TIMER].ForceTrigger();
-			ReefAngel.Timer[LCD_TIMER].Start();
+			ReefAngel->Timer[FEEDING_TIMER].ForceTrigger();
+			ReefAngel->Timer[LCD_TIMER].Start();
 		}
 		// if displayed screen is less than 156, it means we need to redraw because we just came from a I2C receive interrupt
-		if (ReefAngel.DisplayedMenu<156)
+		if (ReefAngel->DisplayedMenu<156)
 		{
-			ReefAngel.DisplayedMenu+=100;
+			ReefAngel->DisplayedMenu+=100;
 			NeedsRedraw=true;
 		}
 		break;
@@ -1996,7 +1996,7 @@ void RATouchMenu::DrawTouchInterface()
 	if (!Splash)
 	{
 #if not defined NOTILT
-		if (!ReefAngel.Sleeping)
+		if (!ReefAngel->Sleeping)
 		{
 			Tilt.Refresh();
 			SetOrientation(Tilt.GetOrientation());
@@ -2023,11 +2023,11 @@ void RATouchMenu::ReDrawScreen()
 	byte TempRelay,TempRelayOn,TempRelayOff;
 	byte numexp=0;
 
-	ReefAngel.WDTReset();
-	if ((ReefAngel.EM&(1<<3))!=0) numexp++;
-	if ((ReefAngel.EM&(1<<4))!=0) numexp++;
-	if ((ReefAngel.EM&(1<<6))!=0) numexp++;
-	if ((ReefAngel.EM&(1<<7))!=0) numexp++;
+	ReefAngel->WDTReset();
+	if ((ReefAngel->EM&(1<<3))!=0) numexp++;
+	if ((ReefAngel->EM&(1<<4))!=0) numexp++;
+	if ((ReefAngel->EM&(1<<6))!=0) numexp++;
+	if ((ReefAngel->EM&(1<<7))!=0) numexp++;
 	if (orientation%2==0) i=0; else i=12;
 
 	if (!Sleeping)
@@ -2055,18 +2055,18 @@ void RATouchMenu::ReDrawScreen()
 			Font.SetColor(TOPBAR_FC,TOPBAR_BC,false);
 			Font.DrawCenterTextP(twidth/2,theight-15,LABEL_MENU);
 		}
-		if (ReefAngel.DisplayedMenu==DEFAULT_MENU || ReefAngel.DisplayedMenu==MAIN_MENU)
+		if (ReefAngel->DisplayedMenu==DEFAULT_MENU || ReefAngel->DisplayedMenu==MAIN_MENU)
 		{
 			Font.SetColor(TOPBAR_FC,TOPBAR_BC,false);
-			if (ReefAngel.Network.payload_ready)
+			if (ReefAngel->Network.payload_ready)
 			{
 				Font.DrawTextP(38,9,DOWNLOADING);
-				Font.DrawText((ReefAngel.Network.downloadsize*100)/ReefAngel.Network.lheader);
+				Font.DrawText((ReefAngel->Network.downloadsize*100)/ReefAngel->Network.lheader);
 				Font.DrawText("%");
 			}
 			else
 			{
-				if (ReefAngel.Network.downloading)
+				if (ReefAngel->Network.downloading)
 				{
 					Font.DrawTextP(38,9,DOWNLOAD_FAILED);
 					if (SD.exists("FIRMWARE.BIN")) {
@@ -2079,7 +2079,7 @@ void RATouchMenu::ReDrawScreen()
 					TouchLCD.DrawDateTime(now(),38,9,MilitaryTime,Font);
 				}
 			}
-			if (ReefAngel.StatusFlags || ReefAngel.AlertFlags)
+			if (ReefAngel->StatusFlags || ReefAngel->AlertFlags)
 				TouchLCD.DrawBMP(twidth-16,7,ALERTICON);
 			else
 				TouchLCD.Clear(TOPBAR_BC,twidth-16,7,twidth,23);
@@ -2344,10 +2344,10 @@ void RATouchMenu::ReDrawScreen()
 					LargeFont.SetColor(COLOR_WHITE,BKCOLOR,false);
 					for (int a=1;a<=TEMP_PROBES;a++)
 					{
-						if (ReefAngel.Params.Temp[a]!=LastParams.Temp[a])
+						if (ReefAngel->Params.Temp[a]!=LastParams.Temp[a])
 						{
-							LargeFont.DrawCenterNumber(x,j,ReefAngel.Params.Temp[a],10);
-							LastParams.Temp[a]=ReefAngel.Params.Temp[a];
+							LargeFont.DrawCenterNumber(x,j,ReefAngel->Params.Temp[a],10);
+							LastParams.Temp[a]=ReefAngel->Params.Temp[a];
 						}
 						x+=twidth*5/16;
 						if (x>twidth*14/16)
@@ -2356,34 +2356,34 @@ void RATouchMenu::ReDrawScreen()
 							j+=45+i;
 						}
 					}
-//					if (ReefAngel.Params.Temp[T1_PROBE]!=LastParams.Temp[T2_PROBE])
+//					if (ReefAngel->Params.Temp[T1_PROBE]!=LastParams.Temp[T2_PROBE])
 //					{
-//						LargeFont.DrawCenterNumber(x,j,ReefAngel.Params.Temp[T2_PROBE],10);
-//						LastParams.Temp[T2_PROBE]=ReefAngel.Params.Temp[T2_PROBE];
+//						LargeFont.DrawCenterNumber(x,j,ReefAngel->Params.Temp[T2_PROBE],10);
+//						LastParams.Temp[T2_PROBE]=ReefAngel->Params.Temp[T2_PROBE];
 //					}
 //					x+=twidth*5/16;
-//					if (ReefAngel.Params.Temp[T3_PROBE]!=LastParams.Temp[T3_PROBE])
+//					if (ReefAngel->Params.Temp[T3_PROBE]!=LastParams.Temp[T3_PROBE])
 //					{
-//						LargeFont.DrawCenterNumber(x,j,ReefAngel.Params.Temp[T3_PROBE],10);
-//						LastParams.Temp[T3_PROBE]=ReefAngel.Params.Temp[T3_PROBE];
+//						LargeFont.DrawCenterNumber(x,j,ReefAngel->Params.Temp[T3_PROBE],10);
+//						LastParams.Temp[T3_PROBE]=ReefAngel->Params.Temp[T3_PROBE];
 //					}
 					//pH
 //					x=twidth*3/16;
 //					j+=43+i;
-					if (ReefAngel.Params.PH!=LastParams.PH)
+					if (ReefAngel->Params.PH!=LastParams.PH)
 					{
-						LargeFont.DrawCenterNumber(x,j,ReefAngel.Params.PH,100);
-						LastParams.PH=ReefAngel.Params.PH;
+						LargeFont.DrawCenterNumber(x,j,ReefAngel->Params.PH,100);
+						LastParams.PH=ReefAngel->Params.PH;
 					}
 					x+=twidth*5/16;
 #ifdef SALINITYEXPANSION
 					//Salinity
 					if ((EM&(1<<3))!=0)
 					{
-						if (ReefAngel.Params.Salinity!=LastParams.Salinity)
+						if (ReefAngel->Params.Salinity!=LastParams.Salinity)
 						{
-							LargeFont.DrawCenterNumber(x,j,ReefAngel.Params.Salinity,10);
-							LastParams.Salinity=ReefAngel.Params.Salinity;
+							LargeFont.DrawCenterNumber(x,j,ReefAngel->Params.Salinity,10);
+							LastParams.Salinity=ReefAngel->Params.Salinity;
 						}
 						x+=twidth*5/16;
 					}
@@ -2392,10 +2392,10 @@ void RATouchMenu::ReDrawScreen()
 					//ORP
 					if ((EM&(1<<4))!=0)
 					{
-						if (ReefAngel.Params.ORP!=LastParams.ORP)
+						if (ReefAngel->Params.ORP!=LastParams.ORP)
 						{
-							LargeFont.DrawCenterNumber(x,j,ReefAngel.Params.ORP,0);
-							LastParams.ORP=ReefAngel.Params.ORP;
+							LargeFont.DrawCenterNumber(x,j,ReefAngel->Params.ORP,0);
+							LastParams.ORP=ReefAngel->Params.ORP;
 						}
 						x+=twidth*5/16;
 					}
@@ -2409,10 +2409,10 @@ void RATouchMenu::ReDrawScreen()
 							x=twidth*3/16;
 							j+=45+i;
 						}
-						if (ReefAngel.Params.PHExp!=LastParams.PHExp)
+						if (ReefAngel->Params.PHExp!=LastParams.PHExp)
 						{
-							LargeFont.DrawCenterNumber(x,j,ReefAngel.Params.PHExp,100);
-							LastParams.PHExp=ReefAngel.Params.PHExp;
+							LargeFont.DrawCenterNumber(x,j,ReefAngel->Params.PHExp,100);
+							LastParams.PHExp=ReefAngel->Params.PHExp;
 						}
 						x+=twidth*5/16;
 					}
@@ -2447,7 +2447,7 @@ void RATouchMenu::ReDrawScreen()
 							}
 							if (WaterLevel.GetLevel(a)!=WaterLevel.LastLevel[a])
 							{
-								LargeFont.DrawCenterNumber(x,j,ReefAngel.WaterLevel.GetLevel(a),0);
+								LargeFont.DrawCenterNumber(x,j,ReefAngel->WaterLevel.GetLevel(a),0);
 								WaterLevel.LastLevel[a]=WaterLevel.GetLevel(a);
 							}
 							x+=twidth*5/16;
@@ -2481,10 +2481,10 @@ void RATouchMenu::ReDrawScreen()
 					LargeFont.SetColor(COLOR_WHITE,BKCOLOR,false);
 					for (int a=1;a<=TEMP_PROBES;a++)
 					{
-						if (ReefAngel.Params.Temp[a]!=LastParams.Temp[a])
+						if (ReefAngel->Params.Temp[a]!=LastParams.Temp[a])
 						{
-							LargeFont.DrawCenterNumber(x,j,ReefAngel.Params.Temp[a],10);
-							LastParams.Temp[a]=ReefAngel.Params.Temp[a];
+							LargeFont.DrawCenterNumber(x,j,ReefAngel->Params.Temp[a],10);
+							LastParams.Temp[a]=ReefAngel->Params.Temp[a];
 						}
 						x+=twidth*5/21;
 						if (x>twidth*18/21)
@@ -2493,22 +2493,22 @@ void RATouchMenu::ReDrawScreen()
 							j+=43+i;
 						}
 					}
-//					if (ReefAngel.Params.Temp[T2_PROBE]!=LastParams.Temp[T2_PROBE])
+//					if (ReefAngel->Params.Temp[T2_PROBE]!=LastParams.Temp[T2_PROBE])
 //					{
-//						LargeFont.DrawCenterNumber(x,j,ReefAngel.Params.Temp[T2_PROBE],10);
-//						LastParams.Temp[T2_PROBE]=ReefAngel.Params.Temp[T2_PROBE];
+//						LargeFont.DrawCenterNumber(x,j,ReefAngel->Params.Temp[T2_PROBE],10);
+//						LastParams.Temp[T2_PROBE]=ReefAngel->Params.Temp[T2_PROBE];
 //					}
 //					x+=twidth*5/21;
-//					if (ReefAngel.Params.Temp[T3_PROBE]!=LastParams.Temp[T3_PROBE])
+//					if (ReefAngel->Params.Temp[T3_PROBE]!=LastParams.Temp[T3_PROBE])
 //					{
-//						LargeFont.DrawCenterNumber(x,j,ReefAngel.Params.Temp[T3_PROBE],10);
-//						LastParams.Temp[T3_PROBE]=ReefAngel.Params.Temp[T3_PROBE];
+//						LargeFont.DrawCenterNumber(x,j,ReefAngel->Params.Temp[T3_PROBE],10);
+//						LastParams.Temp[T3_PROBE]=ReefAngel->Params.Temp[T3_PROBE];
 //					}
 //					x+=twidth*5/21;
-					if (ReefAngel.Params.PH!=LastParams.PH)
+					if (ReefAngel->Params.PH!=LastParams.PH)
 					{
-						LargeFont.DrawCenterNumber(x,j,ReefAngel.Params.PH,100);
-						LastParams.PH=ReefAngel.Params.PH;
+						LargeFont.DrawCenterNumber(x,j,ReefAngel->Params.PH,100);
+						LastParams.PH=ReefAngel->Params.PH;
 					}
 					x+=twidth*5/21;
 #ifdef SALINITYEXPANSION
@@ -2520,10 +2520,10 @@ void RATouchMenu::ReDrawScreen()
 							x=twidth*3/21;
 							j+=43+i;
 						}
-						if (ReefAngel.Params.Salinity!=LastParams.Salinity)
+						if (ReefAngel->Params.Salinity!=LastParams.Salinity)
 						{
-							LargeFont.DrawCenterNumber(x,j,ReefAngel.Params.Salinity,10);
-							LastParams.Salinity=ReefAngel.Params.Salinity;
+							LargeFont.DrawCenterNumber(x,j,ReefAngel->Params.Salinity,10);
+							LastParams.Salinity=ReefAngel->Params.Salinity;
 						}
 						x+=twidth*5/21;
 					}
@@ -2537,10 +2537,10 @@ void RATouchMenu::ReDrawScreen()
 							x=twidth*3/21;
 							j+=43+i;
 						}
-						if (ReefAngel.Params.ORP!=LastParams.ORP)
+						if (ReefAngel->Params.ORP!=LastParams.ORP)
 						{
-							LargeFont.DrawCenterNumber(x,j,ReefAngel.Params.ORP,0);
-							LastParams.ORP=ReefAngel.Params.ORP;
+							LargeFont.DrawCenterNumber(x,j,ReefAngel->Params.ORP,0);
+							LastParams.ORP=ReefAngel->Params.ORP;
 						}
 						x+=twidth*5/21;
 					}
@@ -2554,10 +2554,10 @@ void RATouchMenu::ReDrawScreen()
 							x=twidth*3/21;
 							j+=43+i;
 						}
-						if (ReefAngel.Params.PHExp!=LastParams.PHExp)
+						if (ReefAngel->Params.PHExp!=LastParams.PHExp)
 						{
-							LargeFont.DrawCenterNumber(x,j,ReefAngel.Params.PHExp,100);
-							LastParams.PHExp=ReefAngel.Params.PHExp;
+							LargeFont.DrawCenterNumber(x,j,ReefAngel->Params.PHExp,100);
+							LastParams.PHExp=ReefAngel->Params.PHExp;
 						}
 						x+=twidth*5/21;
 					}
@@ -2592,7 +2592,7 @@ void RATouchMenu::ReDrawScreen()
 							}
 							if (WaterLevel.GetLevel(a)!=WaterLevel.LastLevel[a])
 							{
-								LargeFont.DrawCenterNumber(x,j,ReefAngel.WaterLevel.GetLevel(a),0);
+								LargeFont.DrawCenterNumber(x,j,ReefAngel->WaterLevel.GetLevel(a),0);
 								WaterLevel.LastLevel[a]=WaterLevel.GetLevel(a);
 							}
 							x+=twidth*5/21;
@@ -2638,7 +2638,7 @@ void RATouchMenu::ReDrawScreen()
 						Font.SetColor(COLOR_GOLD,BKCOLOR,true);
 						for (int a=0;a<CUSTOM_EXP_MODULES;a++)
 						{
-							ReefAngel.CustomExpansionLastValue[a]=-1;
+							ReefAngel->CustomExpansionLastValue[a]=-1;
 							Font.DrawCenterTextP(x,j,(char * )pgm_read_word(&(LABEL_CUSTOM_EXP[a])));
 							x+=twidth*5/16;
 							if (x>twidth*14/16)
@@ -2655,7 +2655,7 @@ void RATouchMenu::ReDrawScreen()
 						Font.SetColor(COLOR_GOLD,BKCOLOR,true);
 						for (int a=0;a<CUSTOM_EXP_MODULES;a++)
 						{
-							ReefAngel.CustomExpansionLastValue[a]=-1;
+							ReefAngel->CustomExpansionLastValue[a]=-1;
 							Font.DrawCenterTextP(x,j,(char * )pgm_read_word(&(LABEL_CUSTOM_EXP[a])));
 							x+=twidth*5/21;
 							if (x>twidth*18/21)
@@ -2675,10 +2675,10 @@ void RATouchMenu::ReDrawScreen()
 					LargeFont.SetColor(COLOR_WHITE,BKCOLOR,false);
 					for (int a=0;a<CUSTOM_EXP_MODULES;a++)
 					{
-						if (ReefAngel.CustomExpansionValue[a]!=ReefAngel.CustomExpansionLastValue[a])
+						if (ReefAngel->CustomExpansionValue[a]!=ReefAngel->CustomExpansionLastValue[a])
 						{
-							LargeFont.DrawCenterNumber(x,j,ReefAngel.CustomExpansionValue[a],InternalMemory.read(Mem_B_CustomExpansion1Decimal+a));
-							ReefAngel.CustomExpansionLastValue[a]=ReefAngel.CustomExpansionValue[a];
+							LargeFont.DrawCenterNumber(x,j,ReefAngel->CustomExpansionValue[a],InternalMemory.read(Mem_B_CustomExpansion1Decimal+a));
+							ReefAngel->CustomExpansionLastValue[a]=ReefAngel->CustomExpansionValue[a];
 						}
 						x+=twidth*5/16;
 					}
@@ -2690,10 +2690,10 @@ void RATouchMenu::ReDrawScreen()
 					LargeFont.SetColor(COLOR_WHITE,BKCOLOR,false);
 					for (int a=0;a<CUSTOM_EXP_MODULES;a++)
 					{
-						if (ReefAngel.CustomExpansionValue[a]!=ReefAngel.CustomExpansionLastValue[a])
+						if (ReefAngel->CustomExpansionValue[a]!=ReefAngel->CustomExpansionLastValue[a])
 						{
-							LargeFont.DrawCenterNumber(x,j,ReefAngel.CustomExpansionValue[a],InternalMemory.read(Mem_B_CustomExpansion1Decimal+a));
-							ReefAngel.CustomExpansionLastValue[a]=ReefAngel.CustomExpansionValue[a];
+							LargeFont.DrawCenterNumber(x,j,ReefAngel->CustomExpansionValue[a],InternalMemory.read(Mem_B_CustomExpansion1Decimal+a));
+							ReefAngel->CustomExpansionLastValue[a]=ReefAngel->CustomExpansionValue[a];
 						}
 						x+=twidth*5/21;
 						if (x>twidth*18/21)
@@ -2717,7 +2717,7 @@ void RATouchMenu::ReDrawScreen()
 					TouchLCD.Clear(COLOR_BLACK,0,34,twidth,theight-34);
 					PB[0].NeedsRedraw=true;
 					PB[1].NeedsRedraw=true;
-					if (ReefAngel.Board==RAStar)
+					if (ReefAngel->Board==RAStar)
 					{
 						j=40;
 						PB[2].NeedsRedraw=true;
@@ -2728,20 +2728,20 @@ void RATouchMenu::ReDrawScreen()
 						j=40+i;
 					}
 					//ATO Ports
-					if (ReefAngel.Board==RAStar || bitRead(ReefAngel.EM1,3))
+					if (ReefAngel->Board==RAStar || bitRead(ReefAngel->EM1,3))
 						x=(twidth/4)-25;
 					else
 						x=(twidth/2)-25;
 					Font.DrawTextP(COLOR_WHITE,COLOR_BLACK,x,j+3,LABEL_ATOHIGH);
 					j+=20+(i*2);
 					Font.DrawTextP(COLOR_WHITE,COLOR_BLACK,x,j+3,LABEL_ATOLOW);
-					if (ReefAngel.Board==RAStar || bitRead(ReefAngel.EM1,3))
+					if (ReefAngel->Board==RAStar || bitRead(ReefAngel->EM1,3))
 					{
 						j=40;
 						x=(twidth*3/4)-25;
 						Font.DrawTextP(COLOR_WHITE,COLOR_BLACK,x,j+3,LABEL_LEAK);
 					}
-					if (ReefAngel.Board==RAStar)
+					if (ReefAngel->Board==RAStar)
 					{
 						j+=20+(i*2);
 						Font.DrawTextP(COLOR_WHITE,COLOR_BLACK,x,j+3,LABEL_ALARM);
@@ -2750,38 +2750,38 @@ void RATouchMenu::ReDrawScreen()
 					//Division
 					TouchLCD.DrawLine(DIVISION,0,j,twidth,j);
 				}
-				if (ReefAngel.Board==RAStar)
+				if (ReefAngel->Board==RAStar)
 					j=40;
 				else
 					j=40+i;
 				// ATO Buttons
-				if (ReefAngel.Board==RAStar || bitRead(ReefAngel.EM1,3))
+				if (ReefAngel->Board==RAStar || bitRead(ReefAngel->EM1,3))
 					x=(twidth/4)-50;
 				else
 					x=(twidth/2)-50;
 
-				if (ReefAngel.HighATO.IsActive())
+				if (ReefAngel->HighATO.IsActive())
 					TouchLCD.DrawBMP(x,j,GREENBUTTON);
 				else
 					TouchLCD.DrawBMP(x,j,REDBUTTON);
 				j+=20+(i*2);
-				if (ReefAngel.LowATO.IsActive())
+				if (ReefAngel->LowATO.IsActive())
 					TouchLCD.DrawBMP(x,j,GREENBUTTON);
 				else
 					TouchLCD.DrawBMP(x,j,REDBUTTON);
-				if (ReefAngel.Board==RAStar || bitRead(ReefAngel.EM1,3))
+				if (ReefAngel->Board==RAStar || bitRead(ReefAngel->EM1,3))
 				{
 					j=40;
 					x=(twidth*3/4)-50;
-					if (ReefAngel.IsLeakDetected())
+					if (ReefAngel->IsLeakDetected())
 						TouchLCD.DrawBMP(x,j,GREENBUTTON);
 					else
 						TouchLCD.DrawBMP(x,j,REDBUTTON);
 				}
-				if (ReefAngel.Board==RAStar)
+				if (ReefAngel->Board==RAStar)
 				{
 					j+=20+(i*2);
-					if (ReefAngel.AlarmInput.IsActive())
+					if (ReefAngel->AlarmInput.IsActive())
 						TouchLCD.DrawBMP(x,j,GREENBUTTON);
 					else
 						TouchLCD.DrawBMP(x,j,REDBUTTON);
@@ -2796,7 +2796,7 @@ void RATouchMenu::ReDrawScreen()
 #if defined(__SAM3X8E__)
 				PB[0].SetCurrent(VariableControl.GetDaylightValue());
 #else
-				PB[0].SetCurrent(ReefAngel.PWM.GetDaylightValue());
+				PB[0].SetCurrent(ReefAngel->PWM.GetDaylightValue());
 #endif
 				PB[0].Show();
 				j+=30+i;
@@ -2806,11 +2806,11 @@ void RATouchMenu::ReDrawScreen()
 #if defined(__SAM3X8E__)
 				PB[1].SetCurrent(VariableControl.GetActinicValue());
 #else
-				PB[1].SetCurrent(ReefAngel.PWM.GetActinicValue());
+				PB[1].SetCurrent(ReefAngel->PWM.GetActinicValue());
 #endif
 				PB[1].Show();
 				j+=30+i;
-				if (ReefAngel.Board==RAStar)
+				if (ReefAngel->Board==RAStar)
 				{
 					PB[2].SetPosition(10,j);
 					PB[2].SetColor(COLOR_ORANGE);
@@ -2818,7 +2818,7 @@ void RATouchMenu::ReDrawScreen()
 #if defined(__SAM3X8E__)
 					PB[2].SetCurrent(VariableControl.GetDaylight2Value());
 #else
-					PB[2].SetCurrent(ReefAngel.PWM.GetDaylight2Value());
+					PB[2].SetCurrent(ReefAngel->PWM.GetDaylight2Value());
 #endif
 					PB[2].Show();
 					j+=30+i;
@@ -2828,7 +2828,7 @@ void RATouchMenu::ReDrawScreen()
 #if defined(__SAM3X8E__)
 					PB[3].SetCurrent(VariableControl.GetActinic2Value());
 #else
-					PB[3].SetCurrent(ReefAngel.PWM.GetActinic2Value());
+					PB[3].SetCurrent(ReefAngel->PWM.GetActinic2Value());
 #endif
 					PB[3].Show();
 				}
@@ -2841,16 +2841,16 @@ void RATouchMenu::ReDrawScreen()
 
 				if (DisplayedScreen==RELAY_BOX)
 				{
-					TempRelay=ReefAngel.Relay.RelayData;
-					TempRelayOn=ReefAngel.Relay.RelayMaskOn;
-					TempRelayOff=ReefAngel.Relay.RelayMaskOff;
+					TempRelay=ReefAngel->Relay.RelayData;
+					TempRelayOn=ReefAngel->Relay.RelayMaskOn;
+					TempRelayOff=ReefAngel->Relay.RelayMaskOff;
 				}
 				else
 				{
 #ifdef RelayExp
-					TempRelay=ReefAngel.Relay.RelayDataE[DisplayedScreen-EXP_BOX_1];
-					TempRelayOn=ReefAngel.Relay.RelayMaskOnE[DisplayedScreen-EXP_BOX_1];
-					TempRelayOff=ReefAngel.Relay.RelayMaskOffE[DisplayedScreen-EXP_BOX_1];
+					TempRelay=ReefAngel->Relay.RelayDataE[DisplayedScreen-EXP_BOX_1];
+					TempRelayOn=ReefAngel->Relay.RelayMaskOnE[DisplayedScreen-EXP_BOX_1];
+					TempRelayOff=ReefAngel->Relay.RelayMaskOffE[DisplayedScreen-EXP_BOX_1];
 #endif // RelayExp
 				}
 				TempRelay&=TempRelayOff;
@@ -2969,7 +2969,7 @@ void RATouchMenu::ReDrawScreen()
 #if defined(__SAM3X8E__)
 					PB[a].SetCurrent(VariableControl.GetChannelValue(a));
 #else
-					PB[a].SetCurrent(ReefAngel.PWM.GetChannelValue(a));
+					PB[a].SetCurrent(ReefAngel->PWM.GetChannelValue(a));
 #endif
 					PB[a].Show();
 				}
@@ -3231,13 +3231,13 @@ void RATouchMenu::ReDrawScreen()
 					Font.DrawText(ip_to_str(ipAddr));
 					j+=20;
 					Font.DrawTextP(xstart,j,LABEL_CLOUD);
-					if (ReefAngel.Network.IsMQTTConnected())
+					if (ReefAngel->Network.IsMQTTConnected())
 						Font.DrawTextP(LABEL_CLOUD_CONNECTED);
 					else
 						Font.DrawTextP(LABEL_CLOUD_DISCONNECTED);
 					j+=20;
 					Font.DrawTextP(xstart,j,LABEL_SD);
-					if (ReefAngel.SDFound)
+					if (ReefAngel->SDFound)
 						Font.DrawTextP(LABEL_SD_INSERTED);
 					else
 						Font.DrawTextP(LABEL_SD_NOT_FOUND);
@@ -3267,7 +3267,7 @@ void RATouchMenu::ReDrawScreen()
 				}
 				Font.SetColor(COLOR_WHITE,COLOR_BLACK,false);
 				j=75;
-				if ((ReefAngel.StatusFlags & 1) == 1)
+				if ((ReefAngel->StatusFlags & 1) == 1)
 				{
 					const unsigned char * const *iptr1=STATUSFLAGICONS;
 					const unsigned char *arr2 = ( unsigned char* ) pgm_read_word( iptr1 );
@@ -3276,7 +3276,7 @@ void RATouchMenu::ReDrawScreen()
 					Font.DrawTextP(LABEL_EMPTY);
 					j+=20;
 				}
-				byte tempalert=ReefAngel.AlertFlags;
+				byte tempalert=ReefAngel->AlertFlags;
 				for(byte i=0;i<8;i++,tempalert>>=1)
 					if ((tempalert & 1) == 1)
 					{
@@ -3307,7 +3307,7 @@ void RATouchMenu::ReDrawScreen()
 				}
 			}
 		}
-		else if (ReefAngel.DisplayedMenu==TOUCH_MENU)
+		else if (ReefAngel->DisplayedMenu==TOUCH_MENU)
 		{
 			if (NeedsRedraw)
 			{
@@ -3336,7 +3336,7 @@ void RATouchMenu::ReDrawScreen()
 					{
 						if (a==2)
 						{
-							if (bitRead(ReefAngel.StatusFlags,LightsOnFlag))
+							if (bitRead(ReefAngel->StatusFlags,LightsOnFlag))
 								Font.DrawCenterTextP(twidth/4,12+(border*3)+(ch*a),MENU_BUTTON_CANCEL);
 							else
 								Font.DrawCenterTextP(twidth/4,12+(border*3)+(ch*a),(char * )pgm_read_word(&(menu_button_items1[a*2])));
@@ -3375,11 +3375,11 @@ void RATouchMenu::ProcessTouch()
 	byte TempRelay,TempRelayOn,TempRelayOff;
 	byte numexp=0;
 
-	ReefAngel.WDTReset();
-	if ((ReefAngel.EM&(1<<3))!=0) numexp++;
-	if ((ReefAngel.EM&(1<<4))!=0) numexp++;
-	if ((ReefAngel.EM&(1<<6))!=0) numexp++;
-	if ((ReefAngel.EM&(1<<7))!=0) numexp++;
+	ReefAngel->WDTReset();
+	if ((ReefAngel->EM&(1<<3))!=0) numexp++;
+	if ((ReefAngel->EM&(1<<4))!=0) numexp++;
+	if ((ReefAngel->EM&(1<<6))!=0) numexp++;
+	if ((ReefAngel->EM&(1<<7))!=0) numexp++;
 
 	menutimeout=now();
 	// Check for Soft Reset of screen
@@ -3405,7 +3405,7 @@ void RATouchMenu::ProcessTouch()
 		int twidth=TouchLCD.GetWidth();
 		int theight=TouchLCD.GetHeight();
 
-		if (ReefAngel.DisplayedMenu==TOUCH_MENU)
+		if (ReefAngel->DisplayedMenu==TOUCH_MENU)
 		{
 			if (TS.X<50 && TS.Y>theight-30 && TS.X>0)
 				ChangeDisplayedScreen(-1);
@@ -3451,7 +3451,7 @@ void RATouchMenu::ProcessTouch()
 				MenuFunctionPtr=&RATouchMenu::Touch; // put pointer back to default
 			}
 		}
-		if (ReefAngel.DisplayedMenu==DEFAULT_MENU || ReefAngel.DisplayedMenu==MAIN_MENU)
+		if (ReefAngel->DisplayedMenu==DEFAULT_MENU || ReefAngel->DisplayedMenu==MAIN_MENU)
 		{
 			if (DisplayedScreen<MAX_SCREENS)
 			{
@@ -3465,7 +3465,7 @@ void RATouchMenu::ProcessTouch()
 
 				if(DisplayedScreen==DIMMING_ATO)
 				{
-					if (ReefAngel.Board==RAStar)
+					if (ReefAngel->Board==RAStar)
 						j=90+(i*3);
 					else
 						j=95+(i*4);
@@ -3478,7 +3478,7 @@ void RATouchMenu::ProcessTouch()
 	#if defined(__SAM3X8E__)
 						Slider.SetCurrent(VariableControl.GetDaylightValue());
 	#else
-						Slider.SetCurrent(ReefAngel.PWM.GetDaylightValue());
+						Slider.SetCurrent(ReefAngel->PWM.GetDaylightValue());
 	#endif
 						Slider.SetOverrideID(OVERRIDE_DAYLIGHT);
 						Slider.SetLabelP(LABEL_DAYLIGHT);
@@ -3493,7 +3493,7 @@ void RATouchMenu::ProcessTouch()
 	#if defined(__SAM3X8E__)
 						Slider.SetCurrent(VariableControl.GetActinicValue());
 	#else
-						Slider.SetCurrent(ReefAngel.PWM.GetActinicValue());
+						Slider.SetCurrent(ReefAngel->PWM.GetActinicValue());
 	#endif
 						Slider.SetOverrideID(OVERRIDE_ACTINIC);
 						Slider.SetLabelP(LABEL_ACTINIC);
@@ -3508,7 +3508,7 @@ void RATouchMenu::ProcessTouch()
 	#if defined(__SAM3X8E__)
 						Slider.SetCurrent(VariableControl.GetDaylight2Value());
 	#else
-						Slider.SetCurrent(ReefAngel.PWM.GetDaylight2Value());
+						Slider.SetCurrent(ReefAngel->PWM.GetDaylight2Value());
 	#endif
 						Slider.SetOverrideID(OVERRIDE_DAYLIGHT2);
 						Slider.SetLabelP(LABEL_DAYLIGHT2);
@@ -3523,7 +3523,7 @@ void RATouchMenu::ProcessTouch()
 	#if defined(__SAM3X8E__)
 						Slider.SetCurrent(VariableControl.GetActinic2Value());
 	#else
-						Slider.SetCurrent(ReefAngel.PWM.GetActinic2Value());
+						Slider.SetCurrent(ReefAngel->PWM.GetActinic2Value());
 	#endif
 						Slider.SetOverrideID(OVERRIDE_ACTINIC2);
 						Slider.SetLabelP(LABEL_ACTINIC2);
@@ -3535,16 +3535,16 @@ void RATouchMenu::ProcessTouch()
 
 					if (DisplayedScreen==RELAY_BOX)
 					{
-						TempRelay=ReefAngel.Relay.RelayData;
-						TempRelayOn=ReefAngel.Relay.RelayMaskOn;
-						TempRelayOff=ReefAngel.Relay.RelayMaskOff;
+						TempRelay=ReefAngel->Relay.RelayData;
+						TempRelayOn=ReefAngel->Relay.RelayMaskOn;
+						TempRelayOff=ReefAngel->Relay.RelayMaskOff;
 					}
 					else
 					{
 	#ifdef RelayExp
-						TempRelay=ReefAngel.Relay.RelayDataE[DisplayedScreen-EXP_BOX_1];
-						TempRelayOn=ReefAngel.Relay.RelayMaskOnE[DisplayedScreen-EXP_BOX_1];
-						TempRelayOff=ReefAngel.Relay.RelayMaskOffE[DisplayedScreen-EXP_BOX_1];
+						TempRelay=ReefAngel->Relay.RelayDataE[DisplayedScreen-EXP_BOX_1];
+						TempRelayOn=ReefAngel->Relay.RelayMaskOnE[DisplayedScreen-EXP_BOX_1];
+						TempRelayOff=ReefAngel->Relay.RelayMaskOffE[DisplayedScreen-EXP_BOX_1];
 	#endif // RelayExp
 					}
 					TempRelay&=TempRelayOff;
@@ -3582,14 +3582,14 @@ void RATouchMenu::ProcessTouch()
 	#ifdef RA_TOUCHDISPLAY
 								SendMaster(MESSAGE_RELAY_OVERRIDE,a+(DisplayedScreen-RELAY_BOX)*10,0);
 	#endif // RA_TOUCHDISPLAY
-								ReefAngel.Relay.Override(a+(DisplayedScreen-RELAY_BOX)*10,0);
+								ReefAngel->Relay.Override(a+(DisplayedScreen-RELAY_BOX)*10,0);
 							}
 							else if (!bitRead(TempRelayOff,a-1))
 							{
 	#ifdef RA_TOUCHDISPLAY
 								SendMaster(MESSAGE_RELAY_OVERRIDE,a+(DisplayedScreen-RELAY_BOX)*10,1);
 	#endif // RA_TOUCHDISPLAY
-								ReefAngel.Relay.Override(a+(DisplayedScreen-RELAY_BOX)*10,1);
+								ReefAngel->Relay.Override(a+(DisplayedScreen-RELAY_BOX)*10,1);
 							}
 							else if (!bitRead(TempRelayOn,a-1) && bitRead(TempRelayOff,a-1))
 							{
@@ -3598,11 +3598,11 @@ void RATouchMenu::ProcessTouch()
 	#endif // RA_TOUCHDISPLAY
 								if (bitRead(TempRelay,a-1))
 								{
-									ReefAngel.Relay.Override(a+(DisplayedScreen-RELAY_BOX)*10,0);
+									ReefAngel->Relay.Override(a+(DisplayedScreen-RELAY_BOX)*10,0);
 								}
 								else
 								{
-									ReefAngel.Relay.Override(a+(DisplayedScreen-RELAY_BOX)*10,1);
+									ReefAngel->Relay.Override(a+(DisplayedScreen-RELAY_BOX)*10,1);
 								}
 							}
 						}
@@ -3611,7 +3611,7 @@ void RATouchMenu::ProcessTouch()
 	#ifdef RA_TOUCHDISPLAY
 							SendMaster(MESSAGE_RELAY_OVERRIDE,a+(DisplayedScreen-RELAY_BOX)*10,2);
 	#endif // RA_TOUCHDISPLAY
-							ReefAngel.Relay.Override(a+(DisplayedScreen-RELAY_BOX)*10,2);
+							ReefAngel->Relay.Override(a+(DisplayedScreen-RELAY_BOX)*10,2);
 						}
 					}
 				}
@@ -3645,7 +3645,7 @@ void RATouchMenu::ProcessTouch()
 	#if defined(__SAM3X8E__)
 							Slider.SetCurrent(VariableControl.GetChannelValue(a));
 	#else
-							Slider.SetCurrent(ReefAngel.PWM.GetChannelValue(a));
+							Slider.SetCurrent(ReefAngel->PWM.GetChannelValue(a));
 	#endif
 							Slider.SetOverrideID(OVERRIDE_CHANNEL0+a);
 							Slider.SetLabelP((char * )pgm_read_word(&(LABEL_PWME[a])));
@@ -3744,17 +3744,17 @@ void RATouchMenu::ProcessTouch()
 #endif // RA_TOUCHDISPLAY
 						if (oid<=OVERRIDE_CHANNEL5 || oid==OVERRIDE_DAYLIGHT2 || oid==OVERRIDE_ACTINIC2)
 #if defined(__SAM3X8E__)
-							ReefAngel.VariableControl.Override(oid,ovalue);
+							ReefAngel->VariableControl.Override(oid,ovalue);
 #else
-							ReefAngel.PWM.Override(oid,ovalue);
+							ReefAngel->PWM.Override(oid,ovalue);
 #endif
 #ifdef AI_LED
 						if (oid>=OVERRIDE_AI_WHITE && oid<=OVERRIDE_AI_ROYALBLUE)
-							ReefAngel.AI.Override(oid-OVERRIDE_AI_WHITE,ovalue);
+							ReefAngel->AI.Override(oid-OVERRIDE_AI_WHITE,ovalue);
 #endif // AI_LED
 #ifdef RFEXPANSION
 						if (oid>=OVERRIDE_RF_WHITE && oid<=OVERRIDE_RF_INTENSITY)
-							ReefAngel.RF.Override(oid-OVERRIDE_RF_WHITE,ovalue);
+							ReefAngel->RF.Override(oid-OVERRIDE_RF_WHITE,ovalue);
 #endif // RFEXPANSION
 					}
 					if (CancelButton.IsPressed())
@@ -3765,17 +3765,17 @@ void RATouchMenu::ProcessTouch()
 #endif // RA_TOUCHDISPLAY
 						if (oid<=OVERRIDE_CHANNEL5 || oid==OVERRIDE_DAYLIGHT2 || oid==OVERRIDE_ACTINIC2)
 #if defined(__SAM3X8E__)
-							ReefAngel.VariableControl.Override(oid,255);
+							ReefAngel->VariableControl.Override(oid,255);
 #else
-							ReefAngel.PWM.Override(oid,255);
+							ReefAngel->PWM.Override(oid,255);
 #endif
 #ifdef AI_LED
 						if (oid>=OVERRIDE_AI_WHITE && oid<=OVERRIDE_AI_ROYALBLUE)
-							ReefAngel.AI.Override(oid-OVERRIDE_AI_WHITE,255);
+							ReefAngel->AI.Override(oid-OVERRIDE_AI_WHITE,255);
 #endif // AI_LED
 #ifdef RFEXPANSION
 						if (oid>=OVERRIDE_RF_WHITE && oid<=OVERRIDE_RF_INTENSITY)
-							ReefAngel.RF.Override(oid-OVERRIDE_RF_WHITE,255);
+							ReefAngel->RF.Override(oid-OVERRIDE_RF_WHITE,255);
 #endif // RFEXPANSION
 					}
 					if (bDone)
@@ -3794,9 +3794,9 @@ void RATouchMenu::CheckTouch()
 {
 	if (TS.IsTouched())
 	{
-		ReefAngel.WDTReset();
+		ReefAngel->WDTReset();
 		ProcessTouch();
-		ReefAngel.WDTReset();
+		ReefAngel->WDTReset();
 		ResetScreenSaver();
 	}
 	else
@@ -3816,14 +3816,14 @@ void RATouchMenu::ExitMenu()
 {
 	// TODO Move feeding, WC logic out of RATouchMenu
 	// Handles the cleanup to return to the main screen
-	if (bitRead(ReefAngel.StatusFlags,FeedingFlag)) ReefAngel.LastFeedingMode=now(); // TODO: Remove feeding logic from ExitMenu
-	bitClear(ReefAngel.StatusFlags,FeedingFlag);
-	if (bitRead(ReefAngel.StatusFlags,WaterChangeFlag)) ReefAngel.LastWaterChangeMode=now();
-	bitClear(ReefAngel.StatusFlags,WaterChangeFlag);
-	ReefAngel.WDTReset();
+	if (bitRead(ReefAngel->StatusFlags,FeedingFlag)) ReefAngel->LastFeedingMode=now(); // TODO: Remove feeding logic from ExitMenu
+	bitClear(ReefAngel->StatusFlags,FeedingFlag);
+	if (bitRead(ReefAngel->StatusFlags,WaterChangeFlag)) ReefAngel->LastWaterChangeMode=now();
+	bitClear(ReefAngel->StatusFlags,WaterChangeFlag);
+	ReefAngel->WDTReset();
 	ClearScreen(DefaultBGColor);
-	ReefAngel.Timer[LCD_TIMER].Start();
-	ReefAngel.SetDisplayedMenu(DEFAULT_MENU);
+	ReefAngel->Timer[LCD_TIMER].Start();
+	ReefAngel->SetDisplayedMenu(DEFAULT_MENU);
 	DisplayedScreen=MAIN_SCREEN;
 }
 
@@ -3997,7 +3997,7 @@ void SliderClass::Hide()
 
 boolean SliderClass::Refresh()
 {
-	ReefAngel.WDTReset();
+	ReefAngel->WDTReset();
 	if (IsPlusPressed())
 	{
 		current++;

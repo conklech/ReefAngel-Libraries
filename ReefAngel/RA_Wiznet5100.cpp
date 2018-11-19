@@ -84,12 +84,12 @@ void RA_Wiznet5100::Update()
 						if (sd_index==32)
 						{
 							sd_index=0;
-							ReefAngel.Timer[PORTAL_TIMER].Start();  // start timer
+							ReefAngel->Timer[PORTAL_TIMER].Start();  // start timer
 							PortalTimeOut=millis();
 							// TODO: Restore Wiznet5100 "downloading" display in actual UI
-							// ReefAngel.Font.DrawTextP(38,9,DOWNLOADING);
-							// ReefAngel.Font.DrawText((downloadsize*100)/lheader);
-							// ReefAngel.Font.DrawText("%");
+							// ReefAngel->Font.DrawTextP(38,9,DOWNLOADING);
+							// ReefAngel->Font.DrawText((downloadsize*100)/lheader);
+							// ReefAngel->Font.DrawText("%");
 						}
 					}
 					else
@@ -337,24 +337,24 @@ void RA_Wiznet5100::Cloud()
 				MQTTSendmillis=millis();
 				for (byte a=0; a<NumParamByte;a++)
 				{
-					if (*ReefAngel.ParamArrayByte[a]!=ReefAngel.OldParamArrayByte[a])
+					if (*ReefAngel->ParamArrayByte[a]!=ReefAngel->OldParamArrayByte[a])
 					{
 						char buffer[15];
 						strcpy_P(buffer, (char*)pgm_read_word(&(param_items_byte[a]))); 
-						sprintf(buffer, "%s:%d", buffer, *ReefAngel.ParamArrayByte[a]);
+						sprintf(buffer, "%s:%d", buffer, *ReefAngel->ParamArrayByte[a]);
 						CloudPublish(buffer);
-						ReefAngel.OldParamArrayByte[a]=*ReefAngel.ParamArrayByte[a];
+						ReefAngel->OldParamArrayByte[a]=*ReefAngel->ParamArrayByte[a];
 					}
 				}
 				for (byte a=0; a<NumParamInt;a++)
 				{
-					if (*ReefAngel.ParamArrayInt[a]!=ReefAngel.OldParamArrayInt[a])
+					if (*ReefAngel->ParamArrayInt[a]!=ReefAngel->OldParamArrayInt[a])
 					{
 						char buffer[15];
 						strcpy_P(buffer, (char*)pgm_read_word(&(param_items_int[a]))); 
-						sprintf(buffer, "%s:%d", buffer, *ReefAngel.ParamArrayInt[a]);
+						sprintf(buffer, "%s:%d", buffer, *ReefAngel->ParamArrayInt[a]);
 						CloudPublish(buffer);
-						ReefAngel.OldParamArrayInt[a]=*ReefAngel.ParamArrayInt[a];
+						ReefAngel->OldParamArrayInt[a]=*ReefAngel->ParamArrayInt[a];
 					}
 				}
 			}		
