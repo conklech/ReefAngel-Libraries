@@ -31,6 +31,7 @@
 #include <Time.h>
 #include <Font.h>
 
+#include <Globals.h>
 #include <ReefAngel.h>
 #include <RA_TouchLCD.h>
 #include <RA_TS.h>
