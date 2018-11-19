@@ -5,6 +5,9 @@ RA_NokiaLCD LCD;
 RA_JoystickClass Joystick;
 boolean relaytest;
 
+bool showmenu; // used in ReefAngel_1.5_LCD.h
+bool redrawmenu; // used in ReefAngel_1.5_LCD.h
+
 void ShowInterface();
 void DrawStandardMain();
 void StoreGraphData();

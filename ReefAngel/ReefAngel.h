@@ -22,7 +22,7 @@
 #ifndef	__REEFANGEL_H__
 #define __REEFANGEL_H__
 
-#define ReefAngel_Version "1.1.3"
+#define ReefAngel_Version "1.2REFACTOR"
 
 #include <Globals.h>
 #include <InternalEEPROM.h>  // NOTE read/write internal memory
@@ -99,8 +99,7 @@ public:
 	byte Board;
 	int PHMin,PHMax;
 	ParamsStruct Params;
-	ParamsStruct OldParams;
-	byte OldTempRelay, OldDaylight, OldActinic;
+	byte OldDaylight, OldActinic;
 	byte AlertFlags,StatusFlags;
 	bool BusLocked;
 	unsigned long LastFeedingMode;
@@ -192,8 +191,6 @@ public:
 	TimerClass Timer[6];
 	byte SelectedMenuItem;
 	byte DisplayedMenu;
-	bool showmenu;
-	boolean Splash;
 #ifdef MAIN_2014
 	byte MenuItem_2014;
 	String CustomLabels[72];
@@ -268,23 +265,28 @@ public:
 	void SetTemperatureUnit(byte unit);
 	void ConvertTempUnit();
 	void FeedingModeStart();
+	void FeedingModeEnd();
 	void WaterChangeModeStart();
+	void WaterChangeModeEnd();
 	void ATOClear();
 	void OverheatCheck();
 	void OverheatClear();
 	void LightsOn();
 	void LightsOff();
-	void RefreshScreen();
 	void StartSetupCalibrateChoicePH();
 	inline void SetupCalibratePH() { StartSetupCalibrateChoicePH(); }
 	void DisplaySetupCalibrateChoicePH();
-	void ClearScreen(byte Color);
-	void ExitMenu();
 	void SetDisplayedMenu(byte value);
+	
+	void BuzzerOn(byte style=0);
+	void BuzzerOff();
+
+	// TODO: Wire up ReefAngelClass::ShowNoInternalMemoryError and RATouchmenu::ShowNoInternalMemoryError
+    void ShowNoInternalMemoryError();
+	
+	// Reset the watchdog timer on supported systems. This must be called periodically to confirm that we have not
+	// crashed.
 	void WDTReset();
-	void CheckDrawGraph();
-	void CheckFeedingDrawing();
-	void CheckWaterChangeDrawing();
 	void Reboot();
 #ifdef RANET
 	void RANetTrigger(byte TriggerValue);
@@ -300,6 +302,11 @@ public:
 #if defined RA_STAR || defined CLOUD_WIFI
 	int CloudCalVal;
 #endif // RA_STAR 
+
+#if defined RA_STAR
+	int CustomExpansionValue[8];
+	int CustomExpansionLastValue[8]; // TODO refactor CustomExpansionLastValue
+#endif // RA_STAR
 	
 #if defined wifi || defined CLOUD_WIFI || defined ETH_WIZ5100
 	byte* ParamArrayByte[NumParamByte] = {&LowATO.Status,&HighATO.Status,&EM,&EM1,&REM,&Board,&AlertFlags,&StatusFlags,
@@ -412,6 +419,7 @@ public:
 	unsigned long lastmasterupdate;
 #endif // I2CMASTER
 
+	// TODO: Numerous unused void inline functions?
 	void inline Use2014Screen() {};
 	void inline AddSalinityExpansion() {};
 	void inline AddORPExpansion() {};
@@ -438,7 +446,7 @@ public:
 	void inline ReverseATOHigh() {};
 	void inline ReverseAlarmInput() {};
 	void inline Mini() {}; // deprecated
-	void inline Touch() {};
+	void inline Touch() {}; // Used to be used by touch menu; now RATouchMenu::Touch() is used.
 	void inline TouchDisplay() {};
 	void inline NoWifi() {};
 	void inline NoSD() {};
@@ -539,9 +547,6 @@ public:
 	void DosingPumpRepeat3(byte Relay);
 	void Wavemaker1(byte WMRelay);
 	void Wavemaker2(byte WMRelay);
-#ifdef VersionMenu
-	void DisplayVersion();
-#endif  // VersionMenu
 
 #if defined wifi || defined RA_STAR
 	void Portal();
@@ -553,7 +558,6 @@ public:
 	void CheckOverride(int option);
 	void DimmingOverride(int weboption, int weboption2 );
 private:
-	time_t menutimeout;
 	byte taddr;
 
 	// Nested Menu variables
@@ -561,7 +565,6 @@ private:
 	byte menuqtysptr[Total_Menus];
 	int custom_items[10];
 	byte PreviousMenu;
-	bool redrawmenu;
 	void CheckOffset(byte &x, byte &y);
         
         /* Constants defined in ReefAngel.cpp */

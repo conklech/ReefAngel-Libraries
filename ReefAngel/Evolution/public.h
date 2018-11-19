@@ -42,22 +42,6 @@ byte RANetData[RANET_SIZE];
 byte RANetStatus[RANET_SIZE];
 unsigned long RANetlastmillis;
 
-void SetOrientation(byte o);
-void CalibrateTouchScreen();
-void InitCustomLabels();
-void ChangeDisplayedScreen(signed char index);
-void MainScreen();
-void ResetScreenSaver();
-void SetupTouchDateTime();
-void SetupTouchCalibratePH();
-void SetupTouchCalibrateSal();
-void SetupTouchCalibrateORP();
-void SetupTouchCalibratePHExp();
-void SetupTouchCalibrateWL();
-void ApplySalinityCompensation();
-void CheckMenuTimeout();
-void ShowTouchMenu();
-void ShowTouchInterface();	
 
 void BuzzerOn(byte style=0);
 void BuzzerOff();

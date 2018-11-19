@@ -1,82 +1,11 @@
 // Star
 
 DS1307RTC RTC;
-RA_TouchLCD TouchLCD;
-RA_TFT TFT;
-FontClass SmallFont;
-FontClass Font;
-FontClass LargeFont;
-RA_TS TS;
-ButtonClass OkButton;
-ButtonClass CancelButton;
-ProgressBarClass PB[6];
-SliderClass Slider;
 RA_ATOALARMClass AlarmInput;
 
-ParamsStruct LastParams;
-typedef void (ReefAngelClass::* FuncPtr) (); // declare function pointers
-FuncPtr MenuFunctionPtr;
-FuncPtr menu_button_functions1[6];
-FuncPtr menu_button_functions2[6];
-FuncPtr menu_button_functions3[6];
-FuncPtr menu_button_functions4[6];
-FuncPtr menu_button_functions5[6];
-FuncPtr menu_button_functions6[6];
-int CustomExpansionValue[8];
-int CustomExpansionLastValue[8];
-
-byte LastOrientation;
-boolean MilitaryTime;
-signed char DisplayedScreen;
-signed char RecallScreen;
-bool NeedsRedraw;
-bool TouchEnabled;
-bool Sleeping;
-byte orientation;
 //byte LongTouch;
 bool SDFound;
-time_t newnow;
-int CalVal1, CalVal2;
-byte CalStep;
-unsigned long lastRedraw; 
-unsigned long lastDisplayChange; 
 int leakSensitivity;
 
-void ChangeOrientation();
-void SetOrientation(byte o);
-void CalibrateTouchScreen();
-void ChangeDisplayedScreen(signed char index);
-void MainScreen();
-void ResetScreenSaver();
-void SetupTouchDateTime();
-void SetupTouchCalibratePH();
-void SetupTouchCalibrateSal();
-void SetupTouchCalibrateORP();
-void SetupTouchCalibratePHExp();
-void SetupTouchCalibrateWL(byte channel);
-void SetupTouchCalibrateCustom(byte index);
-inline void SetupTouchCalibrateWL0() { SetupTouchCalibrateWL(0); };
-inline void SetupTouchCalibrateWL1() { SetupTouchCalibrateWL(1); };
-inline void SetupTouchCalibrateWL2() { SetupTouchCalibrateWL(2); };
-inline void SetupTouchCalibrateWL3() { SetupTouchCalibrateWL(3); };
-inline void SetupTouchCalibrateWL4() { SetupTouchCalibrateWL(4); };
-inline void SetupTouchCalibrateCustom1() { SetupTouchCalibrateCustom(0); };
-inline void SetupTouchCalibrateCustom2() { SetupTouchCalibrateCustom(1); };
-inline void SetupTouchCalibrateCustom3() { SetupTouchCalibrateCustom(2); };
-inline void SetupTouchCalibrateCustom4() { SetupTouchCalibrateCustom(3); };
-inline void SetupTouchCalibrateCustom5() { SetupTouchCalibrateCustom(4); };
-inline void SetupTouchCalibrateCustom6() { SetupTouchCalibrateCustom(5); };
-inline void SetupTouchCalibrateCustom7() { SetupTouchCalibrateCustom(6); };
-inline void SetupTouchCalibrateCustom8() { SetupTouchCalibrateCustom(7); };
 void ApplySalinityCompensation();
-void CheckMenuTimeout();
-inline void ShowTouchMenu() { ShowTouchMenu(MAIN_MENU_SCREEN); };
-void ShowTouchMenu(byte index);
-void ShowTouchInterface();	
-void ReDrawScreen();
-void ProcessTouch();
-void CheckTouch();
 inline void LeakSensitivity(int value) { leakSensitivity=value; };
-
-void BuzzerOn(byte style=0);
-void BuzzerOff();

@@ -86,9 +86,10 @@ void RA_Wiznet5100::Update()
 							sd_index=0;
 							ReefAngel.Timer[PORTAL_TIMER].Start();  // start timer
 							PortalTimeOut=millis();
-							ReefAngel.Font.DrawTextP(38,9,DOWNLOADING);
-							ReefAngel.Font.DrawText((downloadsize*100)/lheader);
-							ReefAngel.Font.DrawText("%");
+							// TODO: Restore Wiznet5100 "downloading" display in actual UI
+							// ReefAngel.Font.DrawTextP(38,9,DOWNLOADING);
+							// ReefAngel.Font.DrawText((downloadsize*100)/lheader);
+							// ReefAngel.Font.DrawText("%");
 						}
 					}
 					else

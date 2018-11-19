@@ -2279,10 +2279,6 @@ void ReefAngelClass::ClearScreen(byte Color)
 #endif  // RA_TOUCH
 }
 
-void ReefAngelClass::RefreshScreen()
-{
-	LCD.PutPixel(DefaultBGColor,1,1);
-}
 
 
 void ReefAngelClass::CheckScreenSaver()
