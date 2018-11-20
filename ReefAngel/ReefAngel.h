@@ -279,9 +279,11 @@ public:
 	void OverheatClear();
 	void LightsOn();
 	void LightsOff();
+#ifdef RA_PLUS | RA_STANDARD
 	void StartSetupCalibrateChoicePH();
 	inline void SetupCalibratePH() { StartSetupCalibrateChoicePH(); }
 	void DisplaySetupCalibrateChoicePH();
+#endif // RA_PLUS | RA_STANDARD
 	void SetDisplayedMenu(byte value);
 	
 	void BuzzerOn(byte style=0);
