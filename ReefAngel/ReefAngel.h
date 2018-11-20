@@ -92,6 +92,12 @@
 #include <RA_Wifi.h>
 #endif // wifi || CLOUD_WIFI || ETH_WIZ5100
 
+
+// The ReefAngel libraries expect a global variable to be created in the main sketch (.ino file) as follows:
+//
+// 
+// ReefAngelClass globalReefAngel = ReefAngelClass();
+// ReefAngelClass *ReefAngel = &globalReefAngel;
 class ReefAngelClass
 {
 
