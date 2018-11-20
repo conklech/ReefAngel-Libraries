@@ -1592,7 +1592,6 @@ extern byte AtoEventCount;  // Defined in RA_ATO.cpp
 extern boolean LightsOverride;
 
 // globally usable functions
-void inline pingSerial() {};
 byte intlength(int intin);
 int NumMins(uint8_t ScheduleHour, uint8_t ScheduleMinute);
 bool IsLeapYear(int year);
