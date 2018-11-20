@@ -25,7 +25,7 @@
 void RA_TouchLCD::Init()
 {
 	RA_TFT::Init();
-	SetOrientation(1);
+	RA_TFT::SetOrientation(1); // our internal variables are already set by the constructor
 }
 
 void RA_TouchLCD::SetBacklight(byte bl)
