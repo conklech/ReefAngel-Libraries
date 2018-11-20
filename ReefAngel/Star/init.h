@@ -25,7 +25,7 @@ PORTJ|=(1<<3); //PJ3 pull up
 DDRJ&=(0<<4); //PJ4 as input (Alarm pin)
 PORTJ|=(1<<4); //PJ4 pull up
 DDRH|=(1<<2); // Port PH2 output (Exp Bus Power)
-cbi(PORTH,2); // Turn on exp bus power
+bitSet(PORTH,2); // Turn on exp bus power
 digitalWrite(i2cMuxEnable,LOW);
 delay(10);
 digitalWrite(i2cMuxEnable,HIGH);

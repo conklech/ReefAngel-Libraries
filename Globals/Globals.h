@@ -1578,9 +1578,6 @@ static PROGMEM const char * const menu_button_items6[] = {MENU_BUTTON_CEXP5, MEN
 // color definition
 #define RGB565(r, g, b) ((uint16_t)(((r >> 3) << 11)| ((g >> 2) << 5)| (b >> 3)))
 
-#define sbi(port,bitnum)		port |= _BV(bitnum)
-#define cbi(port,bitnum)		port &= ~(_BV(bitnum))
-
 // external globally defined variables
 extern byte ButtonPress;  // Defined in ReefAngel.cpp, used for joystick button presses
 extern OneWire ds;  // Defined in TempSensor.cpp, used for TempSensorClass

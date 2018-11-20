@@ -708,12 +708,12 @@ void ReefAngelClass::Refresh()
 		delay(20);
 		LED.Off();
 		bitSet(AlertFlags,BusLockFlag);
-		sbi(PORTH,2); // Turn off exp bus power
+		bitSet(PORTH,2); // Turn off exp bus power		
 	}
 	else
 	{
 		bitClear(AlertFlags,BusLockFlag);
-		cbi(PORTH,2); // Turn on exp bus power
+		bitClear(PORTH,2); // Turn on exp bus power
 	}
 #endif // BUSCHECK
 }
