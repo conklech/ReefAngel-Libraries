@@ -1240,7 +1240,6 @@ typedef struct Compensation
 #define TouchSample						10
 #define TouchSlideDelta					20
 #define TouchPressure					1500
-#define FONT_HEADER 					7
 #if defined RA_EVOLUTION
 #define TS_CALIBRATION_XMIN				4500
 #define TS_CALIBRATION_XMAX				7400
