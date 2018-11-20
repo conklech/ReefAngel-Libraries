@@ -43,7 +43,7 @@ class RA_TouchLCD
 {
 
 public:
-    constexpr RA_TouchLCD();
+    constexpr RA_TouchLCD() : w(239), h(319), orientation(1) {};
 
 	void Init();
 	void SetBacklight(byte bl);
