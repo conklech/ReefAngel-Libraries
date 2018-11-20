@@ -302,9 +302,7 @@ const char NoIMCheck1[] PROGMEM = "Found";
 #define EEPROMPin			26
 #define TPINTPin			27
 #define TPCSPin				28
-#define TouchBL				3
 #else //
-#define TouchBL				2
 #define daylight2PWMPin     45
 #define actinic2PWMPin      46
 #define BuzzerPin			48

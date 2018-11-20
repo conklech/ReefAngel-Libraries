@@ -20,33 +20,7 @@
   */
 
 #include "RA_TouchLCD.h"
-
-RA_TouchLCD::RA_TouchLCD()
-{
-#if defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_STAR
-	DDRA=0xff; //PORTA (Data Output - D8-15)
-	DDRC=0xff; //PORTC (Data Output - D0-7)
-	PORTA=0xff; //PORTA pull up
-	PORTC=0xff; //PORTC pull up
-	DDRE|=(1<<3); //PE3 (Output) - LDC Data/Command
-	PORTE|=(1<<3); //PE3 pull up
-	DDRE|=(1<<4); //PE4 (Output) - LDC Backlight
-	PORTE&=~(1<<4); //PE4 pull down
-	DDRE|=(1<<5); //PE5 (Output) - LDC Chip Select
-	PORTE|=(1<<5); //PE5 pull up
-	DDRE|=(1<<6); //PE6 (Output) - LDC Write
-	PORTE|=(1<<6); //PE6 pull up
-	DDRE|=(1<<7); //PE7 (Output) - LDC Read
-	PORTE|=(1<<7); //PE7 pull up
-	DDRH|=(1<<3); //PH3 (Output) - LDC Reset
-	PORTH|=(1<<3); //PH3 pull up
-#elif defined(__SAM3X8E__)
-//	PIOC->PIO_OER |= 0x001FFFFE;
-//	PIOC->PIO_OWER = 0x0001FFFE;
-//	PIOC->PIO_OWDR = 0xFFFE0001;
-
-#endif // defined RA_TOUCH || defined RA_TOUCHDISPLAY
-}
+#include "RA_Icons.h"
 
 void RA_TouchLCD::Init()
 {
@@ -56,7 +30,7 @@ void RA_TouchLCD::Init()
 
 void RA_TouchLCD::SetBacklight(byte bl)
 {
-	analogWrite(TouchBL,bl*2.55);
+	RA_TFT::SetBacklight(bl);
 }
 
 void RA_TouchLCD::SetOrientation(byte O)
@@ -64,58 +38,16 @@ void RA_TouchLCD::SetOrientation(byte O)
 	if (orientation!=O)
 	{
 
-		orientation=O;
-		switch (O)
+		RA_TFT::SetOrientation(O);
+		switch(O)
 		{
 		case 1:
-#ifdef HX8347G
-			RA_TFT::SendComData(0x0016,0x0048); // Normal Rotation
-#endif
-#ifdef HX8347D
-			RA_TFT::SendComData(0x0016,0x000f); // Normal Rotation
-#endif
-#ifdef ILI9341
-			RA_TFT::SendComData(0x0036,0x0048); // Normal Rotation
-#endif
+		case 3:
 			w=239;
 			h=319;
 			break;
 		case 2:
-#ifdef HX8347G
-			RA_TFT::SendComData(0x0016,0x00e8); // 90 Rotation
-#endif
-#ifdef HX8347D
-			RA_TFT::SendComData(0x0016,0x00af); // 90 Rotation
-#endif
-#ifdef ILI9341
-			RA_TFT::SendComData(0x0036,0x0028); // 90 Rotation
-#endif
-			w=319;
-			h=239;
-			break;
-		case 3:
-#ifdef HX8347G
-			RA_TFT::SendComData(0x0016,0x0088); // 180 Rotation
-#endif
-#ifdef HX8347D
-			RA_TFT::SendComData(0x0016,0x00cf); // 180 Rotation
-#endif
-#ifdef ILI9341
-			RA_TFT::SendComData(0x0036,0x0088); // 180 Rotation
-#endif
-			w=239;
-			h=319;
-			break;
 		case 4:
-#ifdef HX8347G
-			RA_TFT::SendComData(0x0016,0x0028); // 270 Rotation
-#endif
-#ifdef HX8347D
-			RA_TFT::SendComData(0x0016,0x006f); // 270 Rotation
-#endif
-#ifdef ILI9341
-			RA_TFT::SendComData(0x0036,0x00e8); // 270 Rotation
-#endif
 			w=319;
 			h=239;
 			break;
@@ -161,247 +93,34 @@ void RA_TouchLCD::DrawPixel(int color, int x, int y)
 
 void RA_TouchLCD::DrawLine(int color, int x1, int y1, int x2, int y2)
 {
-	int dx, dy, sx, sy, f;
-
-	if(x1==x2)  // vertical line
-	{
-		Clear(color, x1,y1,x2, y2);
-	}
-	else if(y1==y2)  // horizontal line
-	{
-		Clear(color, x1,y1,x2, y2);
-	}
-	else // Bresenham line
-	{
-		dy = y2 - y1;
-		dx = x2 - x1;
-		if (dy < 0)
-		{
-			dy = -dy;
-			sy = -1;
-		}
-		else
-		{
-			sy = 1;
-		}
-		if (dx < 0)
-		{
-			dx = -dx;
-			sx = -1;
-		}
-		else
-		{
-			sx = 1;
-		}
-
-		dy <<= 1;
-		dx <<= 1;
-
-		DrawPixel(color, x1, y1);
-
-
-		if (dx > dy)
-		{
-			f = dy - (dx >> 1);
-			while (x1!= x2)
-			{
-				if (f >= 0)
-				{
-					y1 += sy;
-					f -= dx;
-				}
-				x1 += sx;
-				f += dy;
-				DrawPixel(color, x1, y1);
-			}
-		}
-		else
-		{
-			f = dx - (dy >> 1);
-			while (y1 != y2)
-			{
-				if (f >= 0)
-				{
-					x1 += sx;
-					f -= dy;
-				}
-				y1 += sy;
-				f += dx;
-				DrawPixel(color, x1, y1);
-			}
-		}
- 	}
-
- }
+	RA_TFT::DrawLine(color, x1, y1, x2, y2);
+}
 
 void RA_TouchLCD::DrawRectangle(int color, int x1, int y1, int x2, int y2, boolean fill)
 {
-	if (fill)
-	{
-		Clear(color,x1,y1,x2,y2);
-	}
-	else
-	{
-		DrawLine(color,x1,y1,x2,y1);
-		DrawLine(color,x2,y1,x2,y2);
-		DrawLine(color,x1,y2,x2,y2);
-		DrawLine(color,x1,y1,x1,y2);
-	}
-
+	RA_TFT::DrawRectangle(color, x1, y1, x2, y2, fill);
 }
 
 void RA_TouchLCD::DrawCircle(int color, int x, int y, int radius, boolean fill)
 {
-	int xo, yo, r;
-
-	xo = 0;
-	yo = radius;
-	r = -radius;
-
-	while (xo <= yo) {
-		if(fill)
-		{
-			DrawLine(color, x-xo, y+yo, x+xo, y+yo);
-			DrawLine(color, x-xo, y-yo, x+xo, y-yo);
-			DrawLine(color, x-yo, y+xo, x+yo, y+xo);
-			DrawLine(color, x-yo, y-xo, x+yo, y-xo);
-		}
-		else
-		{
-			DrawPixel(color, x+xo, y+yo);
-			DrawPixel(color, x-xo, y+yo);
-			DrawPixel(color, x-xo, y-yo);
-			DrawPixel(color, x+xo, y-yo);
-			DrawPixel(color, x+yo, y+xo);
-			DrawPixel(color, x-yo, y+xo);
-			DrawPixel(color, x-yo, y-xo);
-			DrawPixel(color, x+yo, y-xo);
-		}
-
-		if ((r += xo++ + xo)>= 0)
-		{
-			r-= 2*(yo-1);
-			yo--;
-		}
-	}
+	RA_TFT::DrawCircle(color, x, y, radius, fill);
 }
 
 void RA_TouchLCD::DrawRoundRect(int color, int x1, int y1, int x2, int y2, int radius, boolean fill)
 {
-
-
-	if(radius)
-	{
-		int xo, yo, r;
-		int x1r, y1r, x2r, y2r;
-		xo = 0;
-		yo = radius;
-		r = -radius;
-
-		x1r = x1+radius;
-		y1r = y1+radius;
-		x2r = x2-radius;
-		y2r = y2-radius;
-
-		if(fill)
-		{
-			Clear(color, x1, y1r, x2, y2r);
-		}
-		else
-		{
-			DrawLine(color, x1r, y1, x2r, y1);
-			DrawLine(color, x2, y1r, x2, y2r);
-			DrawLine(color, x1r, y2, x2r, y2);
-			DrawLine(color, x1, y1r, x1, y2r);
-		}
-
-		while (xo <= yo)
-		{
-			if(fill)
-			{
-				DrawLine(color, x1r-xo, y2r+yo, x2r+xo, y2r+yo);
-				DrawLine(color, x1r-xo, y1r-yo, x2r+xo, y1r-yo);
-				DrawLine(color, x1r-yo, y2r+xo, x2r+yo, y2r+xo);
-				DrawLine(color, x1r-yo, y1r-xo, x2r+yo, y1r-xo);
-			}
-			else
-			{
-				DrawPixel(color, x2r+xo, y2r+yo);
-				DrawPixel(color, x1r-xo, y2r+yo);
-				DrawPixel(color, x1r-xo, y1r-yo);
-				DrawPixel(color, x2r+xo, y1r-yo);
-				DrawPixel(color, x2r+yo, y2r+xo);
-				DrawPixel(color, x1r-yo, y2r+xo);
-				DrawPixel(color, x1r-yo, y1r-xo);
-				DrawPixel(color, x2r+yo, y1r-xo);
-			}
-
-			if ((r += xo++ + xo)>= 0) {
-				r-= 2* (yo-1);
-				yo--;
-			}
-		}
-	}
-	else
-	{
-		if(fill)
-		{
-			Clear(color,x1,y1,x2,y2);
-		}
-		else
-		{
-			DrawRectangle(color,x1,y1,x2,y2,false);
-		}
-	}
-
+	RA_TFT::DrawRoundRect(color, x1, y1, x2, y2, radius, fill);
 }
 
 void RA_TouchLCD::DrawBMP(int ix, int iy, const unsigned char *iPtr)
 {
-	byte i,j;
-	int w = pgm_read_byte_near(iPtr++)+1;
-	int h  =pgm_read_byte_near(iPtr++)+1;
-	iPtr+=3;
-	RA_TFT::SetBox(ix, iy, w+ix-1, h+iy-1);
-#ifdef ILI9341
-		RA_TFT::SendCom(0x00,0x2C);   /* Write RAM Memory */
-#endif
-	for (int a=0; a<w*h; a++)
-	{
-//		if ((i=pgm_read_byte_near(iPtr++))==0) i=255;
-//		if ((j=pgm_read_byte_near(iPtr++))==0) j=255;
-//		RA_TFT::SendData(i,j);
-		i=pgm_read_byte_near(iPtr++);
-		j=pgm_read_byte_near(iPtr++);
-		RA_TFT::SendData(i,j);
-	}
+	RA_TFT::DrawBMP(ix, iy, iPtr);
 }
 
 void RA_TouchLCD::DrawBMP(int ix, int iy, const unsigned char *iPtr, byte overridecolor_msb, byte overridecolor_lsb)
 {
-	// This is to workaround avrdude bug that doesn't allow us to write chunk blocks of 0xff into memory.
-	// So, we change override color to white.
-	byte i,j;
-	int w = pgm_read_byte_near(iPtr++)+1;
-	int h  =pgm_read_byte_near(iPtr++)+1;
-	iPtr+=3;
-	RA_TFT::SetBox(ix, iy, w+ix-1, h+iy-1);
-#ifdef ILI9341
-		RA_TFT::SendCom(0x00,0x2C);   /* Write RAM Memory */
-#endif
-	for (int a=0; a<w*h; a++)
-	{
-		i=pgm_read_byte_near(iPtr++);
-		j=pgm_read_byte_near(iPtr++);
-		if (i==overridecolor_msb && j==overridecolor_lsb)
-		{
-			i=255;
-			j=255;
-		}
-		RA_TFT::SendData(i,j);
-//		RA_TFT::SendData(pgm_read_byte_near(iPtr++),pgm_read_byte_near(iPtr++));
-	}
+	RA_TFT::DrawBMP(ix, iy, iPtr, overridecolor_msb, overridecolor_lsb);
 }
+
 void RA_TouchLCD::DrawSDImage(char *bmp, int x, int y)
 {
 	int bmpWidth, bmpHeight;
@@ -492,8 +211,6 @@ void RA_TouchLCD::DrawSDRawImage(char *bmp, int x, int y, int w, int h)
 	File dataFile = SD.open(bmp);
 
 	if (dataFile) {
-		uint16_t p;
-		uint8_t g, b;
 		unsigned long i, j;
 		uint8_t sdbuffer[2 * BUFFPIXEL];  // 2 * pixels to buffer
 		uint8_t buffidx = 2*BUFFPIXEL;

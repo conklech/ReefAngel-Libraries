@@ -18,6 +18,10 @@
   * Updated by:  Curt Binder
   * Updates Released under Apache License, Version 2.0
   */
+ /*
+  * Updated/refactored, 2018, by Christian W. Conkle (cwc)
+  * Updates copyright 2018 Christian W. Conkle and released under Apache License, Version 2.0
+  */
 
 #ifndef __RA_TFT_H__
 #define __RA_TFT_H__
@@ -26,6 +30,8 @@
 #include <avr/io.h>
 
 #if defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_STAR
+
+#define BACKLIGHT_PIN 2
 
 #define CS0 bitClear(PORTE,5)
 #define CS1 bitSet(PORTE,5)
@@ -42,6 +48,8 @@
 
 #elif defined(__SAM3X8E__)
 
+#define BACKLIGHT_PIN 3
+
 #define RST0  PIOC->PIO_CODR |= 1<<20;
 #define RST1  PIOC->PIO_SODR |= 1<<20;
 #define CS0  PIOC->PIO_CODR |= 1<<19;
@@ -53,6 +61,19 @@
 
 #endif // defined RA_TOUCH || defined RA_TOUCHDISPLAY
 
+// This class provides direct control over the Reef Angel display hardware (not including
+// touch functionality).
+//
+// It differs from RA_TouchLCD in that it does not depend on any of the other Reef Angel
+// infrastructure.
+//
+// Nominally this supports several Reef Angel models, but it has not been tested on
+// anything but the Star since it was significantly refactored.
+//
+// There are two sets of compile-time conditionals in this file: for the Reef Angel system
+// (eg RA_TOUCH) and for the display chipset/protocol (eg ILI9341). During the refactor it
+// was not clear to me (cwc) which systems had which chipset, so I preserved mostly the
+// status quo.
 class RA_TFT
 {
 public:
@@ -65,6 +86,14 @@ public:
 	static void SetBox(int x1, int y1, int x2, int y2);
 	static void Pixels(int count, const byte* d);
 	static void DrawPixel(int color, int x, int y);
-	static void Scroll(int offset);};
-
+	static void Scroll(int offset);
+	static void SetBacklight(byte bl);
+	static void SetOrientation(byte orientation);
+	static void DrawLine(int color, int x1, int y1, int x2, int y2);
+	static void DrawRectangle(int color, int x1, int y1, int x2, int y2, boolean fill);
+	static void DrawCircle(int color, int x, int y, int radius, boolean fill);
+	static void DrawRoundRect(int color, int x1, int y1, int x2, int y2, int radius, boolean fill);
+	static void DrawBMP(int ix, int iy, const unsigned char *iPtr);
+	static void DrawBMP(int ix, int iy, const unsigned char *iPtr, byte overridecolor_msb, byte overridecolor_lsb);
+};
 #endif // __RA_TFT_H__

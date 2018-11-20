@@ -1,4 +1,5 @@
 #include "RA_TouchMenu.h"
+#include "RA_Icons.h"
 #include "ReefAngel.h"
 
 void RATouchMenu::Init()
