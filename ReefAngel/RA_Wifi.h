@@ -527,7 +527,6 @@ class RA_Wifi: public Print
     void DDNS(char* subdomain);
     void SendPortal(char* username, char* key);
     inline void CheckWifi(){};
-    inline void pingSerial(){};
     char *portalusername;
     char *portalkey;
     char encodeduserpass[50];

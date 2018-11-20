@@ -24,7 +24,6 @@ PWMSigmoidHighRes	KEYWORD2
 PumpThreshold	KEYWORD2
 MoonPhase	KEYWORD2
 ConvertNumToString	KEYWORD2
-pingSerial	KEYWORD2
 MoonPhaseLabel	KEYWORD2
 ShortPulseMode	KEYWORD2
 LongPulseMode	KEYWORD2
