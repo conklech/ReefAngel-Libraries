@@ -373,4 +373,4 @@ static const uint8_t __attribute__ ((progmem)) ArialBold20[] = {
 #define RGB565(r, g, b) ((uint16_t)(((r >> 3) << 11)| ((g >> 2) << 5)| (b >> 3)))
 #endif
 
-#endif 
+#endif  // __FONT_H__

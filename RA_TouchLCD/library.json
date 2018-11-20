@@ -1,0 +1,15 @@
+{
+    "name": "RA_TouchLCD",
+    "description" : "Mid-level display (not touch!) functions for ReefAngels with touchscreens",
+    "keywords" : "",
+    "repository" : { "type" : "git", "url" : "https://github.com/reefangel/Libraries.git"},
+    "license": "Apache-2.0",
+    "dependencies" : {
+        "Globals" : "",
+        "Font" : "",
+        "Time" : "",
+        "RA_TFT" : "",
+        "SD" : "",
+        "SPI" : ""
+    }
+}

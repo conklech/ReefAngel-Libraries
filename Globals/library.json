@@ -1,0 +1,14 @@
+{
+    "name": "Globals",
+    "description" : "Global constants and utility functions for ReefAngel.",
+    "keywords" : "",
+    "repository" : { "type" : "git", "url" : "https://github.com/reefangel/Libraries.git"},
+    "license": "Apache-2.0",
+    "dependencies" : {
+        "ReefAngel_Features" : "",
+        "Time" : "",
+        "OneWire" : "",
+        "SPI" : "",
+        "SD" : ""
+    }
+}

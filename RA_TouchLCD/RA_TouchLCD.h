@@ -24,15 +24,12 @@
 
 #include <Globals.h>
 #include <Time.h>
-#include <Wire.h>
-#include <InternalEEPROM.h>
-#include <Memory.h>
 #include <SD.h>
 #include <avr/pgmspace.h>
 #include <avr/wdt.h>
 
-#include "RA_TFT.h"
-#include "Font.h"
+#include <RA_TFT.h>
+#include <Font.h>
 
 // This class provides mid-level access to the Reef Angel display hardware (not including
 // touch functionality).
