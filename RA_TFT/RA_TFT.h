@@ -22,22 +22,23 @@
 #ifndef __RA_TFT_H__
 #define __RA_TFT_H__
 
-#include <Globals.h>
+#include <Arduino.h>
+#include <avr/io.h>
 
 #if defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_STAR
 
-#define CS0 cbi(PORTE,5)
-#define CS1 sbi(PORTE,5)
-#define RS0 cbi(PORTE,3)
-#define RS1 sbi(PORTE,3)
-#define WR0 cbi(PORTE,6)
-#define WR1 sbi(PORTE,6)
-#define RST0 cbi(PORTH,3)
-#define RST1 sbi(PORTH,3)
-#define BL0 cbi(PORTE,4)
-#define BL1 sbi(PORTE,4)
-#define LED0 cbi(PORTH, 4)
-#define LED1 sbi(PORTH, 4)
+#define CS0 bitClear(PORTE,5)
+#define CS1 bitSet(PORTE,5)
+#define RS0 bitClear(PORTE,3)
+#define RS1 bitSet(PORTE,3)
+#define WR0 bitClear(PORTE,6)
+#define WR1 bitSet(PORTE,6)
+#define RST0 bitClear(PORTH,3)
+#define RST1 bitSet(PORTH,3)
+#define BL0 bitClear(PORTE,4)
+#define BL1 bitSet(PORTE,4)
+#define LED0 bitClear(PORTH, 4)
+#define LED1 bitSet(PORTH, 4)
 
 #elif defined(__SAM3X8E__)
 
