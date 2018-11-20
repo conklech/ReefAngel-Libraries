@@ -65,7 +65,6 @@ public:
 private:
 	int w,h;
 	byte orientation;
-	char* ConvertDigitsNumber(int number);
 };
 
 const unsigned char GREENBUTTON[] PROGMEM ={

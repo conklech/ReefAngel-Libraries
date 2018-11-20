@@ -588,14 +588,3 @@ void RA_TouchLCD::DrawRelayStatus(int x, int y, boolean status)
 
 }
 
-char* RA_TouchLCD::ConvertDigitsNumber(int number)
-{
-	char text[9];
-	char temp[3];
-
-	strcpy(text,"");
-	if (number<10) strcat(text,"0");
-	itoa(number,temp,10);
-	strcat(text,temp);
-	return text;
-}
