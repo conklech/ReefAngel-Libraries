@@ -164,7 +164,6 @@ public:
     SliderClass Slider;
     
     RA_TouchLCD TouchLCD;
-    RA_TFT TFT;
     RA_TS TS;
 private:
 
