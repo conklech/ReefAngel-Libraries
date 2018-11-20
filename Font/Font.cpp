@@ -23,8 +23,8 @@
 
 FontClass::FontClass()
 {
-	FC = COLOR_WHITE;
-	BC = COLOR_BLACK;
+	FC = RGB565(0xFF, 0xFF, 0xFF); // Default foreground: White
+	BC = RGB565(0x00, 0x00, 0x00); // Default background: Black
 	x = 0;
 	y = 0;
 	Transparent = false;
@@ -120,7 +120,6 @@ void FontClass::DrawChar(char c)
 	int pix_x, pix_y;
     unsigned long index = 0;
   
-    pingSerial();
     byte charwidth = CharWidth(c);
     if (charwidth == 0) return;
     byte width = charwidth + CS;

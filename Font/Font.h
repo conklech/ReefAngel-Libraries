@@ -22,7 +22,6 @@
 #ifndef __FONT_H__
 #define __FONT_H__
 
-#include <Globals.h>
 #include <RA_TFT.h>
 
 class FontClass
@@ -365,5 +364,13 @@ static const uint8_t __attribute__ ((progmem)) ArialBold20[] = {
     0x00
 };
 #endif //  ArialBold20_H
+
+// used in pointer arithmetic within Font.cpp
+#define FONT_HEADER	7
+
+// defined here to avoid depending on Globals.h
+#ifndef RGB565
+#define RGB565(r, g, b) ((uint16_t)(((r >> 3) << 11)| ((g >> 2) << 5)| (b >> 3)))
+#endif
 
 #endif 
