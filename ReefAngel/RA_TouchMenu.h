@@ -100,7 +100,7 @@ class SliderClass
 		void DrawMarker();
 		void Show();
 		void Hide();
-		boolean Refresh();
+		void Refresh();
 		boolean IsPlusPressed();
 		boolean IsMinusPressed();
 	private:
