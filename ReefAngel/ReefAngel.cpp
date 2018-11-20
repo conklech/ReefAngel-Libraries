@@ -2200,10 +2200,10 @@ void receiveEvent(int howMany) {
 					ReefAngel->Params.PHExp=(d[2]<<8) + (ReefAngel->Params.PHExp%256);
 					break;
 				case 72:
-					ReefAngel.humidity.SetLevel(((ReefAngel.humidity.GetLevel()/256)<<8)+d[2]);
+					ReefAngel->Humidity.SetLevel(((ReefAngel->Humidity.GetLevel()/256)<<8)+d[2]);
 					break;
 				case 73:
-					ReefAngel.humidity.SetLevel((d[2]<<8) + (ReefAngel.humidity.GetLevel()%256));
+					ReefAngel->Humidity.SetLevel((d[2]<<8) + (ReefAngel->Humidity.GetLevel()%256));
 					break;
 				case 74:
 					ReefAngel->WaterLevel.SetLevel(0,((ReefAngel->WaterLevel.GetLevel()/256)<<8)+d[2]);
@@ -2857,7 +2857,7 @@ void MQTTSubCallback(char* topic, byte* payload, unsigned int length) {
 #ifdef HUMIDITYEXPANSION
 		case MQTT_HUM:
 		{
-			ReefAngel.humidity.level=mqtt_val/10;
+			ReefAngel->Humidity.level=mqtt_val/10;
 			bitSet(ReefAngel->CEM1,CloudHumidityBit);
 			break;
 		}

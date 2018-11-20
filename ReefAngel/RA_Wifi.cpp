@@ -401,7 +401,7 @@ void RA_Wifi::ProcessHTTP()
 #ifdef HUMIDITYEXPANSION
 			s += 11;
 			//<HUM></HUM>
-			s += intlength(ReefAngel.humidity.GetLevel());
+			s += intlength(ReefAngel->Humidity.GetLevel());
 #endif  // HUMIDITYEXPANSION
 #ifdef PAREXPANSION
 			s += 11;
@@ -987,7 +987,7 @@ void RA_Wifi::ProcessHTTP()
 #ifdef HUMIDITYEXPANSION
 			s += 9;
 			//,"HUM":""
-			s += intlength(ReefAngel.humidity.GetLevel());
+			s += intlength(ReefAngel->Humidity.GetLevel());
 #endif  // HUMIDITYEXPANSION
 #ifdef PAREXPANSION
 			s += 9;
@@ -1263,7 +1263,7 @@ void RA_Wifi::SendXMLData(bool fAtoLog /*= false*/)
 #endif  // MULTIWATERLEVELEXPANSION
 #ifdef HUMIDITYEXPANSION
 	PROGMEMprint(XML_HUM);
-	print(ReefAngel.humidity.GetLevel(), DEC);
+	print(ReefAngel->Humidity.GetLevel(), DEC);
 	PROGMEMprint(XML_HUM_END);
 #endif  // HUMIDITYEXPANSION
 #ifdef PAREXPANSION
@@ -1567,7 +1567,7 @@ void RA_Wifi::SendJSONData()
 	}
 #endif  // WATERLEVELEXPANSION || MULTIWATERLEVELEXPANSION
 #ifdef HUMIDITYEXPANSION
-	SendSingleJSON(JSON_HUM,ReefAngel.humidity.GetLevel());
+	SendSingleJSON(JSON_HUM,ReefAngel->Humidity.GetLevel());
 #endif  // HUMIDITYEXPANSION
 #ifdef PAREXPANSION
 	SendSingleJSON(JSON_PAR,ReefAngel->PAR.GetLevel());
@@ -1980,7 +1980,7 @@ void RA_Wifi::SendPortal(char *username, char*key)
 #endif  // WATERLEVELEXPANSION || MULTIWATERLEVELEXPANSION
 #ifdef HUMIDITYEXPANSION
   PROGMEMprint(BannerHumidity);
-  print(ReefAngel.humidity.GetLevel(), DEC);
+  print(ReefAngel->Humidity.GetLevel(), DEC);
 #endif  // HUMIDITYEXPANSION
 #ifdef PAREXPANSION
   PROGMEMprint(BannerPAR);
