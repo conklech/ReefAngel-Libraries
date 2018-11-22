@@ -20,6 +20,7 @@
   */
 
 #include "RA_TFT.h"
+#if defined __SAM3X8E__ || defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR
 
 void RA_TFT::Init()
 {
@@ -684,3 +685,4 @@ void RA_TFT::DrawBMP(int ix, int iy, const unsigned char *iPtr, byte overridecol
 		RA_TFT::SendData(i,j);
 	}
 }
+#endif // defined __SAM3X8E__ || defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR

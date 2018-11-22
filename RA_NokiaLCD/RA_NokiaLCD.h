@@ -1,4 +1,3 @@
-#ifndef __SAM3X8E__
 /*
  * Copyright 2010 Reef Angel / Roberto Imai
  *
@@ -24,6 +23,8 @@
 #define __RA_NOKIALCD_H__
 
 #include <Globals.h>
+#if !(defined __SAM3X8E__ || defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR)
+
 #if defined WDT || defined WDT_FORCE
 #include <avr/wdt.h>
 #endif  // defined WDT || defined WDT_FORCE
@@ -114,7 +115,5 @@ public:
 
 };
 
-
+#endif // !(defined __SAM3X8E__ || defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR)
 #endif  // __RA_NOKIALCD_H__
-
-#endif // __SAM3X8E__

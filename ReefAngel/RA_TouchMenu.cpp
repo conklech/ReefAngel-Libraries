@@ -2,6 +2,8 @@
 #include "RA_Icons.h"
 #include "ReefAngel.h"
 
+#if defined __SAM3X8E__ || defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR
+
 void RATouchMenu::Init()
 {
 	TS.Init();
@@ -4037,3 +4039,4 @@ boolean SliderClass::IsMinusPressed()
 }
 
 RATouchMenu TouchMenu = RATouchMenu();
+#endif // defined __SAM3X8E__ || defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR

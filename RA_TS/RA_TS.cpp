@@ -20,6 +20,7 @@
   */
 
 #include "RA_TS.h"
+#if defined __SAM3X8E__ || defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR
 
 RA_TS::RA_TS()
 {
@@ -362,3 +363,4 @@ void RA_TS::disableI2CChannel1()
 }
 
 
+#endif // defined __SAM3X8E__ || defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR

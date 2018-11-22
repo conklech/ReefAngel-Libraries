@@ -1,4 +1,3 @@
-#ifndef __SAM3X8E__
 /*
  * Copyright 2010 Reef Angel / Roberto Imai
  *
@@ -19,11 +18,13 @@
   * Updated by:  Curt Binder
   * Updates Released under Apache License, Version 2.0
   */
-#include <SPI.h>
 #include <Globals.h>
+
+#if !(defined __SAM3X8E__ || defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR)
+
+#include <SPI.h>
 #include <Time.h>
 #include "RA_NokiaLCD.h"
-#include <ReefAngel.h>
 #include <Wire.h>
 #include <InternalEEPROM.h>
 #include <Memory.h>
@@ -709,9 +710,6 @@ void RA_NokiaLCD::SendCMD(const byte data)
 	bitOut(data & 0x02);
 	bitOut(data & 0x01);
 #endif // HWSPILCD
-#if defined wifi
-    ReefAngel.Network.ReceiveData();
-#endif  // wifi
 }
 
 
@@ -1947,4 +1945,4 @@ void RA_NokiaLCD::DrawCalibrate(int i, byte x, byte y)
   DrawText(CalibrateColor, DefaultBGColor, x, y, text);
 }
 
-#endif // __SAM3X8E__
+#endif // NOT defined __SAM3X8E__ || defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR

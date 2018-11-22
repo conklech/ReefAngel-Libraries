@@ -22,6 +22,8 @@
 #include "RA_TouchLCD.h"
 #include "RA_Icons.h"
 
+#if defined __SAM3X8E__ || defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR
+
 void RA_TouchLCD::Init()
 {
 	RA_TFT::Init();
@@ -305,3 +307,4 @@ void RA_TouchLCD::DrawRelayStatus(int x, int y, boolean status)
 
 }
 
+#endif // defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR)

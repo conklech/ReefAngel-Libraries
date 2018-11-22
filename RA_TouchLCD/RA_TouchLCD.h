@@ -22,6 +22,9 @@
 #ifndef	__RA_TOUCHLCD_H__
 #define __RA_TOUCHLCD_H__
 
+#include <Globals.h>
+#if defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR
+
 #include <Time.h>
 #include <Memory.h>
 #include <SD.h>
@@ -69,5 +72,7 @@ private:
 	int w,h;
 	byte orientation;
 };
+
+#endif // !(defined __SAM3X8E__ || defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR)
 
 #endif  // __RA_TOUCHLCD_H__

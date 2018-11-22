@@ -30,6 +30,9 @@
 #include <Arduino.h>
 #include <Time.h>
 #include <Font.h>
+#include <ReefAngel_Features.h>
+
+#if defined __SAM3X8E__ || defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR
 
 #include <ReefAngel.h>
 #include <RA_TouchLCD.h>
@@ -246,5 +249,7 @@ private:
 };
 
 extern RATouchMenu TouchMenu;  // make an instance for the user
+
+#endif // defined __SAM3X8E__ || defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR
 
 #endif  // __RA_TOUCHMENU_H__
