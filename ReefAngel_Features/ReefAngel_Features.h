@@ -20,9 +20,28 @@
 #ifndef __REEFANGEL_FEATURES_H__
 #define __REEFANGEL_FEATURES_H__
 
+
 #define SIMPLE_MENU
+#define InstalledRelayExpansionModules 2
+#define AI_LED
+#define PAREXPANSION
+#define RANET
+#define MULTIWATERLEVELEXPANSION
+#define WATERLEVELEXPANSION
+#define PHEXPANSION
+#define ORPEXPANSION
+#define SALINITYEXPANSION
+#define RA_STAR
+#define LEAKDETECTOREXPANSION
+#define DCPUMPCONTROL
+#define RelayExp
+#define RFEXPANSION
+#define DisplayLEDPWM
+#define PWMEXPANSION
 #define VersionMenu
 #define WDT
+
+
 
 
 #endif  // __REEFANGEL_FEATURES_H__
