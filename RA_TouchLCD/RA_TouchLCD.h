@@ -22,10 +22,7 @@
 #ifndef	__RA_TOUCHLCD_H__
 #define __RA_TOUCHLCD_H__
 
-#include <Globals.h>
 #include <Time.h>
-#include <Wire.h>
-#include <InternalEEPROM.h>
 #include <Memory.h>
 #include <SD.h>
 #include <avr/pgmspace.h>
