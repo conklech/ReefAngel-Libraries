@@ -409,7 +409,6 @@ void ReefAngelClass::Refresh()
 	RFRecv=RF.RFCheck();
 	if (RFRecv==1)
 	{
-		ClearScreen(DefaultBGColor);
 		FeedingModeStart();
 	}
 	if (RFRecv==2)

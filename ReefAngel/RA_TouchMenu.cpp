@@ -230,7 +230,7 @@ void RATouchMenu::ChangeDisplayedScreen(signed char index)
 		if (ReefAngel.Board==RAStar && DisplayedScreen==RELAY_BOX) DisplayedScreen+=index;
 #ifdef CUSTOM_VARIABLES
 		for ( byte EID = 0; EID < 8; EID++ )
-			cvarcheck+=CustomVar[EID];
+			cvarcheck+=ReefAngel.CustomVar[EID];
 #endif //CUSTOM_VARIABLES
 
 		if (DisplayedScreen>RELAY_BOX)
@@ -621,7 +621,7 @@ void RATouchMenu::ShowTouchCalibrateSal()
 			{
 				for (int a=0;a<60;a++)
 				{
-					p+=Salinity.Read();
+					p+=ReefAngel.Salinity.Read();
 					delay(50);
 					ReefAngel.WDTReset();
 				}
@@ -630,7 +630,7 @@ void RATouchMenu::ShowTouchCalibrateSal()
 			}
 			else
 			{
-				CalVal1=CloudCalVal;
+				CalVal1=ReefAngel.CloudCalVal;
 			}
 			CalStep++;
 		}
@@ -668,7 +668,7 @@ void RATouchMenu::ShowTouchCalibrateSal()
 			Font.SetColor(COLOR_BLACK, COLOR_WHITE,false);
 			Font.DrawCenterTextP(twidth/2,theight/2,PH_CALI14);
 			InternalMemory.SalMax_write(CalVal1);
-			SalMax = CalVal1;
+			ReefAngel.SalMax = CalVal1;
 			CalStep++;
 			if (bitRead(ReefAngel.CEM,CloudSalinityBit)==1)
 			{
@@ -765,7 +765,7 @@ void RATouchMenu::ShowTouchCalibrateORP()
 			{
 				for (int a=0;a<60;a++)
 				{
-					p+=ORP.Read();
+					p+=ReefAngel.ORP.Read();
 					delay(50);
 					ReefAngel.WDTReset();
 				}
@@ -774,7 +774,7 @@ void RATouchMenu::ShowTouchCalibrateORP()
 			}
 			else
 			{
-				CalVal1=CloudCalVal;
+				CalVal1=ReefAngel.CloudCalVal;
 			}
 			CalStep++;
 		}
@@ -837,7 +837,7 @@ void RATouchMenu::ShowTouchCalibrateORP()
 			{
 				for (int a=0;a<60;a++)
 				{
-					p+=ORP.Read();
+					p+=ReefAngel.ORP.Read();
 					delay(50);
 					ReefAngel.WDTReset();
 				}
@@ -846,7 +846,7 @@ void RATouchMenu::ShowTouchCalibrateORP()
 			}
 			else
 			{
-				CalVal2=CloudCalVal;
+				CalVal2=ReefAngel.CloudCalVal;
 			}
 			CalStep++;
 		}
@@ -887,9 +887,9 @@ void RATouchMenu::ShowTouchCalibrateORP()
 			Font.SetColor(COLOR_BLACK, COLOR_WHITE,false);
 			Font.DrawCenterTextP(twidth/2,theight/2,PH_CALI14);
 			InternalMemory.ORPMin_write(CalVal1);
-			ORPMin = CalVal1;
+			ReefAngel.ORPMin = CalVal1;
 			InternalMemory.ORPMax_write(CalVal2);
-			ORPMax = CalVal2;
+			ReefAngel.ORPMax = CalVal2;
 			CalStep++;
 			if (bitRead(ReefAngel.CEM,CloudORPBit)==1)
 			{
@@ -991,7 +991,7 @@ void RATouchMenu::ShowTouchCalibratePHExp()
 			{
 				for (int a=0;a<60;a++)
 				{
-					p+=PH.Read();
+					p+=ReefAngel.PH.Read();
 					delay(50);
 					ReefAngel.WDTReset();
 				}
@@ -1000,7 +1000,7 @@ void RATouchMenu::ShowTouchCalibratePHExp()
 			}
 			else
 			{
-				CalVal1=CloudCalVal;
+				CalVal1=ReefAngel.CloudCalVal;
 			}
 			CalStep++;
 		}
@@ -1063,7 +1063,7 @@ void RATouchMenu::ShowTouchCalibratePHExp()
 			{
 				for (int a=0;a<60;a++)
 				{
-					p+=PH.Read();
+					p+=ReefAngel.PH.Read();
 					delay(50);
 					ReefAngel.WDTReset();
 				}
@@ -1072,7 +1072,7 @@ void RATouchMenu::ShowTouchCalibratePHExp()
 			}
 			else
 			{
-				CalVal2=CloudCalVal;
+				CalVal2=ReefAngel.CloudCalVal;
 			}
 			CalStep++;
 		}
@@ -1112,9 +1112,9 @@ void RATouchMenu::ShowTouchCalibratePHExp()
 			Font.SetColor(COLOR_BLACK, COLOR_WHITE,false);
 			Font.DrawCenterTextP(twidth/2,theight/2,PH_CALI14);
 			InternalMemory.PHExpMin_write(CalVal1);
-			PHExpMin = CalVal1;
+			ReefAngel.PHExpMin = CalVal1;
 			InternalMemory.PHExpMax_write(CalVal2);
-			PHExpMax = CalVal2;
+			ReefAngel.PHExpMax = CalVal2;
 			CalStep++;
 			if (bitRead(ReefAngel.CEM,CloudPHExpBit)==1)
 			{
@@ -1221,7 +1221,7 @@ void RATouchMenu::ShowTouchCalibrateWL(byte channel)
 			{
 				for (int a=0;a<60;a++)
 				{
-					p+=WaterLevel.Read();
+					p+=ReefAngel.WaterLevel.Read();
 					delay(50);
 					ReefAngel.WDTReset();
 				}
@@ -1232,7 +1232,7 @@ void RATouchMenu::ShowTouchCalibrateWL(byte channel)
 			{
 				for (int a=0;a<60;a++)
 				{
-					p+=WaterLevel.Read(channel);
+					p+=ReefAngel.WaterLevel.Read(channel);
 					delay(50);
 					ReefAngel.WDTReset();
 				}
@@ -1241,7 +1241,7 @@ void RATouchMenu::ShowTouchCalibrateWL(byte channel)
 			}
 			else
 			{
-				CalVal1=CloudCalVal;
+				CalVal1=ReefAngel.CloudCalVal;
 			}
 			CalStep++;
 		}
@@ -1291,7 +1291,7 @@ void RATouchMenu::ShowTouchCalibrateWL(byte channel)
 			{
 				for (int a=0;a<60;a++)
 				{
-					p+=WaterLevel.Read();
+					p+=ReefAngel.WaterLevel.Read();
 					delay(50);
 					ReefAngel.WDTReset();
 				}
@@ -1302,7 +1302,7 @@ void RATouchMenu::ShowTouchCalibrateWL(byte channel)
 			{
 				for (int a=0;a<60;a++)
 				{
-					p+=WaterLevel.Read(channel);
+					p+=ReefAngel.WaterLevel.Read(channel);
 					delay(50);
 					ReefAngel.WDTReset();
 				}
@@ -1311,7 +1311,7 @@ void RATouchMenu::ShowTouchCalibrateWL(byte channel)
 			}
 			else
 			{
-				CalVal2=CloudCalVal;
+				CalVal2=ReefAngel.CloudCalVal;
 			}
 			CalStep++;
 		}
@@ -1650,7 +1650,7 @@ void RATouchMenu::HandleCalibrationChangeMode() // TODO: Pull non-touchscreen co
 	case WL3_CALIBRATE_MENU:
 	case WL4_CALIBRATE_MENU:
 #if defined RA_TOUCH || defined RA_TOUCHDISPLAY || defined RA_EVOLUTION || defined RA_STAR
-		SetupTouchCalibrateWL(ChangeMode-WL_CALIBRATE_MENU);
+		SetupTouchCalibrateWL(ReefAngel.ChangeMode-WL_CALIBRATE_MENU);
 #else
 		SetupCalibrateWaterLevel();
 #endif // RA_TOUCH
@@ -2123,10 +2123,10 @@ void RATouchMenu::ReDrawScreen()
 #endif // HUMIDITYEXPANSION
 #if defined WATERLEVELEXPANSION || defined MULTIWATERLEVELEXPANSION
 					for (int a=0; a<WATERLEVEL_CHANNELS; a++)
-						WaterLevel.LastLevel[a]=-1;
+						ReefAngel.WaterLevel.LastLevel[a]=-1;
 #endif // WATERLEVELEXPANSION || MULTIWATERLEVELEXPANSION
 #ifdef PAREXPANSION
-					PAR.LastLevel=-1;
+					ReefAngel.PAR.LastLevel=-1;
 #endif // PAREXPANSION
 
 					TouchLCD.Clear(COLOR_BLACK,0,34,twidth,theight-34);
@@ -2158,7 +2158,7 @@ void RATouchMenu::ReDrawScreen()
 						x+=twidth*5/16;
 #ifdef SALINITYEXPANSION
 						//Salinity
-						if ((EM&(1<<3))!=0)
+						if ((ReefAngel.EM&(1<<3))!=0)
 						{
 							Font.DrawCenterTextP(x,j,LABEL_SALINITY);
 							x+=twidth*5/16;
@@ -2166,7 +2166,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // SALINITYEXPANSION
 #ifdef ORPEXPANSION
 						//ORP
-						if ((EM&(1<<4))!=0)
+						if ((ReefAngel.EM&(1<<4))!=0)
 						{
 							Font.DrawCenterTextP(x,j,LABEL_ORP);
 							x+=twidth*5/16;
@@ -2174,7 +2174,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // ORPEXPANSION
 #ifdef PHEXPANSION
 						//pH Exp
-						if ((EM&(1<<6))!=0)
+						if ((ReefAngel.EM&(1<<6))!=0)
 						{
 							if (x>twidth*14/16)
 							{
@@ -2187,7 +2187,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // PHEXPANSION
 #ifdef HUMIDITYEXPANSION
 						//Humidity
-						if ((EM1&(1<<0))!=0)
+						if ((ReefAngel.EM1&(1<<0))!=0)
 						{
 							if (x>twidth*14/16)
 							{
@@ -2200,7 +2200,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // HUMIDITYEXPANSION
 #if defined WATERLEVELEXPANSION || defined MULTIWATERLEVELEXPANSION
 						//Water Level
-						if ((EM&(1<<7))!=0)
+						if ((ReefAngel.EM&(1<<7))!=0)
 						{
 							for (int a=0; a<WATERLEVEL_CHANNELS; a++)
 							{
@@ -2216,7 +2216,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // WATERLEVELEXPANSION || MULTIWATERLEVELEXPANSION
 #ifdef PAREXPANSION
 						//PAR
-						if ((EM1&(1<<3))!=0)
+						if ((ReefAngel.EM1&(1<<3))!=0)
 						{
 							if (x>twidth*14/16)
 							{
@@ -2255,7 +2255,7 @@ void RATouchMenu::ReDrawScreen()
 
 #ifdef SALINITYEXPANSION
 						//Salinity
-						if ((EM&(1<<3))!=0)
+						if ((ReefAngel.EM&(1<<3))!=0)
 						{
 							if (x>twidth*18/21)
 							{
@@ -2268,7 +2268,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // SALINITYEXPANSION
 #ifdef ORPEXPANSION
 						//ORP
-						if ((EM&(1<<4))!=0)
+						if ((ReefAngel.EM&(1<<4))!=0)
 						{
 							if (x>twidth*18/21)
 							{
@@ -2281,7 +2281,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // ORPEXPANSION
 #ifdef PHEXPANSION
 						//pH Exp
-						if ((EM&(1<<6))!=0)
+						if ((ReefAngel.EM&(1<<6))!=0)
 						{
 							if (x>twidth*18/21)
 							{
@@ -2294,7 +2294,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // PHEXPANSION
 #ifdef HUMIDITYEXPANSION
 						//Humidity
-						if ((EM1&(1<<0))!=0)
+						if ((ReefAngel.EM1&(1<<0))!=0)
 						{
 							if (x>twidth*18/21)
 							{
@@ -2307,7 +2307,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // HUMIDITYEXPANSION
 #if defined WATERLEVELEXPANSION || defined MULTIWATERLEVELEXPANSION
 						//Water Level
-						if ((EM&(1<<7))!=0)
+						if ((ReefAngel.EM&(1<<7))!=0)
 						{
 							for (int a=0;a<WATERLEVEL_CHANNELS;a++)
 							{
@@ -2323,7 +2323,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // WATERLEVELEXPANSION || MULTIWATERLEVELEXPANSION
 #ifdef PAREXPANSION
 						//PAR
-						if ((EM1&(1<<3))!=0)
+						if ((ReefAngel.EM1&(1<<3))!=0)
 						{
 							if (x>twidth*18/21)
 							{
@@ -2380,7 +2380,7 @@ void RATouchMenu::ReDrawScreen()
 					x+=twidth*5/16;
 #ifdef SALINITYEXPANSION
 					//Salinity
-					if ((EM&(1<<3))!=0)
+					if ((ReefAngel.EM&(1<<3))!=0)
 					{
 						if (ReefAngel.Params.Salinity!=LastParams.Salinity)
 						{
@@ -2392,7 +2392,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // SALINITYEXPANSION
 #ifdef ORPEXPANSION
 					//ORP
-					if ((EM&(1<<4))!=0)
+					if ((ReefAngel.EM&(1<<4))!=0)
 					{
 						if (ReefAngel.Params.ORP!=LastParams.ORP)
 						{
@@ -2404,7 +2404,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // ORPEXPANSION
 #ifdef PHEXPANSION
 					//pH Exp
-					if ((EM&(1<<6))!=0)
+					if ((ReefAngel.EM&(1<<6))!=0)
 					{
 						if (x>twidth*14/16)
 						{
@@ -2421,7 +2421,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // PHEXPANSION
 #ifdef HUMIDITYEXPANSION
 					//Humidity
-					if ((EM1&(1<<0))!=0)
+					if ((ReefAngel.EM1&(1<<0))!=0)
 					{
 						if (x>twidth*14/16)
 						{
@@ -2438,7 +2438,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // HUMIDITYEXPANSION
 #if defined WATERLEVELEXPANSION || defined MULTIWATERLEVELEXPANSION
 					//Water Level
-					if ((EM&(1<<7))!=0)
+					if ((ReefAngel.EM&(1<<7))!=0)
 					{
 						for (int a=0;a<WATERLEVEL_CHANNELS;a++)
 						{
@@ -2447,10 +2447,10 @@ void RATouchMenu::ReDrawScreen()
 								x=twidth*3/16;
 								j+=45+i;
 							}
-							if (WaterLevel.GetLevel(a)!=WaterLevel.LastLevel[a])
+							if (ReefAngel.WaterLevel.GetLevel(a)!=ReefAngel.WaterLevel.LastLevel[a])
 							{
 								LargeFont.DrawCenterNumber(x,j,ReefAngel.WaterLevel.GetLevel(a),0);
-								WaterLevel.LastLevel[a]=WaterLevel.GetLevel(a);
+								ReefAngel.WaterLevel.LastLevel[a]=ReefAngel.WaterLevel.GetLevel(a);
 							}
 							x+=twidth*5/16;
 						}
@@ -2458,17 +2458,17 @@ void RATouchMenu::ReDrawScreen()
 #endif // WATERLEVELEXPANSION || MULTIWATERLEVELEXPANSION
 #ifdef PAREXPANSION
 					//PAR
-					if ((EM1&(1<<3))!=0)
+					if ((ReefAngel.EM1&(1<<3))!=0)
 					{
 						if (x>twidth*14/16)
 						{
 							x=twidth*3/16;
 							j+=45+i;
 						}
-						if (PAR.GetLevel()!=PAR.LastLevel)
+						if (ReefAngel.PAR.GetLevel()!=ReefAngel.PAR.LastLevel)
 						{
-							LargeFont.DrawCenterNumber(x,j,PAR.GetLevel(),10);
-							PAR.LastLevel=PAR.GetLevel();
+							LargeFont.DrawCenterNumber(x,j,ReefAngel.PAR.GetLevel(),10);
+							ReefAngel.PAR.LastLevel=ReefAngel.PAR.GetLevel();
 						}
 						x+=twidth*5/16;
 					}
@@ -2515,7 +2515,7 @@ void RATouchMenu::ReDrawScreen()
 					x+=twidth*5/21;
 #ifdef SALINITYEXPANSION
 					//Salinity
-					if ((EM&(1<<3))!=0)
+					if ((ReefAngel.EM&(1<<3))!=0)
 					{
 						if (x>twidth*18/21)
 						{
@@ -2532,7 +2532,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // SALINITYEXPANSION
 #ifdef ORPEXPANSION
 					//ORP
-					if ((EM&(1<<4))!=0)
+					if ((ReefAngel.EM&(1<<4))!=0)
 					{
 						if (x>twidth*18/21)
 						{
@@ -2549,7 +2549,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // ORPEXPANSION
 #ifdef PHEXPANSION
 					//pH Exp
-					if ((EM&(1<<6))!=0)
+					if ((ReefAngel.EM&(1<<6))!=0)
 					{
 						if (x>twidth*18/21)
 						{
@@ -2566,7 +2566,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // PHEXPANSION
 #ifdef HUMIDITYEXPANSION
 					//Humidity
-					if ((EM1&(1<<0))!=0)
+					if ((ReefAngel.EM1&(1<<0))!=0)
 					{
 						if (x>twidth*18/21)
 						{
@@ -2583,7 +2583,7 @@ void RATouchMenu::ReDrawScreen()
 #endif // HUMIDITYEXPANSION
 #if defined WATERLEVELEXPANSION || defined MULTIWATERLEVELEXPANSION
 					//Water Level
-					if ((EM&(1<<7))!=0)
+					if ((ReefAngel.EM&(1<<7))!=0)
 					{
 						for (int a=0;a<5;a++)
 						{
@@ -2592,10 +2592,10 @@ void RATouchMenu::ReDrawScreen()
 								x=twidth*3/21;
 								j+=43+i;
 							}
-							if (WaterLevel.GetLevel(a)!=WaterLevel.LastLevel[a])
+							if (ReefAngel.WaterLevel.GetLevel(a)!=ReefAngel.WaterLevel.LastLevel[a])
 							{
 								LargeFont.DrawCenterNumber(x,j,ReefAngel.WaterLevel.GetLevel(a),0);
-								WaterLevel.LastLevel[a]=WaterLevel.GetLevel(a);
+								ReefAngel.WaterLevel.LastLevel[a]=ReefAngel.WaterLevel.GetLevel(a);
 							}
 							x+=twidth*5/21;
 						}
@@ -2603,17 +2603,17 @@ void RATouchMenu::ReDrawScreen()
 #endif // WATERLEVELEXPANSION || MULTIWATERLEVELEXPANSION
 #ifdef PAREXPANSION
 					//PAR
-					if ((EM1&(1<<3))!=0)
+					if ((ReefAngel.EM1&(1<<3))!=0)
 					{
 						if (x>twidth*18/21)
 						{
 							x=twidth*3/21;
 							j+=43+i;
 						}
-						if (PAR.GetLevel()!=PAR.LastLevel)
+						if (ReefAngel.PAR.GetLevel()!=ReefAngel.PAR.LastLevel)
 						{
-							LargeFont.DrawCenterNumber(x,j,PAR.GetLevel(),0);
-							PAR.LastLevel=PAR.GetLevel();
+							LargeFont.DrawCenterNumber(x,j,ReefAngel.PAR.GetLevel(),0);
+							ReefAngel.PAR.LastLevel=ReefAngel.PAR.GetLevel();
 						}
 						x+=twidth*5/21;
 					}
@@ -3008,11 +3008,11 @@ void RATouchMenu::ReDrawScreen()
 					j=27;
 					j+=40+(i*2);
 					LargeFont.SetColor(COLOR_WHITE,BKCOLOR,false);
-					LargeFont.DrawCenterTextP((twidth/2),j,(char * )pgm_read_word(&(RF_MODE[RF.Mode])));
+					LargeFont.DrawCenterTextP((twidth/2),j,(char * )pgm_read_word(&(RF_MODE[ReefAngel.RF.Mode])));
 					j+=45+(i*2);
-					LargeFont.DrawCenterNumber((twidth/2),j,RF.Speed,0);
+					LargeFont.DrawCenterNumber((twidth/2),j,ReefAngel.RF.Speed,0);
 					j+=45+(i*2);
-					LargeFont.DrawCenterNumber((twidth/2),j,RF.Duration,0);
+					LargeFont.DrawCenterNumber((twidth/2),j,ReefAngel.RF.Duration,0);
 				}
 			}
 			else if(DisplayedScreen==RF_SCREEN1)
@@ -3038,14 +3038,14 @@ void RATouchMenu::ReDrawScreen()
 				}
 				// Progress Bars
 				j=50+(i/2);
-				int rfcolor[] = {COLOR_ORANGE,COLOR_ROYALBLUE,COLOR_RED,COLOR_GREEN,COLOR_LIGHTBLUE,COLOR_MAGENTA};
+				uint16_t rfcolor[] = {COLOR_ORANGE,COLOR_ROYALBLUE,COLOR_RED,COLOR_GREEN,COLOR_LIGHTBLUE,COLOR_MAGENTA};
 				for (int a=0;a<6;a++)
 				{
 					j+=22+i;
 					PB[a].SetPosition(10,j);
 					PB[a].SetColor(rfcolor[a]);
 					PB[a].SetLabelP((char * )pgm_read_word(&(LABEL_RF[a])));
-					PB[a].SetCurrent(RF.GetChannel(a));
+					PB[a].SetCurrent(ReefAngel.RF.GetChannel(a));
 					PB[a].Show();
 				}
 
@@ -3076,14 +3076,14 @@ void RATouchMenu::ReDrawScreen()
 
 				// Progress Bars
 				j=35;
-				int aicolor[] = {COLOR_ORANGE,COLOR_LIGHTBLUE,COLOR_ROYALBLUE};
+				uint16_t aicolor[] = {COLOR_ORANGE,COLOR_LIGHTBLUE,COLOR_ROYALBLUE};
 				for (int a=0;a<3;a++)
 				{
 					j+=40+(i*2);
 					PB[a].SetPosition(10,j);
 					PB[a].SetColor(aicolor[a]);
 					PB[a].SetLabelP((char * )pgm_read_word(&(LABEL_AI[a])));
-					PB[a].SetCurrent(AI.GetChannel(a));
+					PB[a].SetCurrent(ReefAngel.AI.GetChannel(a));
 					PB[a].Show();
 				}
 			}
@@ -3159,11 +3159,11 @@ void RATouchMenu::ReDrawScreen()
 					j=27;
 					j+=40+(i*2);
 					LargeFont.SetColor(COLOR_WHITE,BKCOLOR,false);
-					LargeFont.DrawCenterTextP((twidth/2),j,(char * )pgm_read_word(&(RF_MODE[DCPump.Mode])));
+					LargeFont.DrawCenterTextP((twidth/2),j,(char * )pgm_read_word(&(RF_MODE[ReefAngel.DCPump.Mode])));
 					j+=45+(i*2);
-					LargeFont.DrawCenterNumber((twidth/2),j,DCPump.Speed,0);
+					LargeFont.DrawCenterNumber((twidth/2),j,ReefAngel.DCPump.Speed,0);
 					j+=45+(i*2);
-					LargeFont.DrawCenterNumber((twidth/2),j,DCPump.Duration,0);
+					LargeFont.DrawCenterNumber((twidth/2),j,ReefAngel.DCPump.Duration,0);
 				}
 			}
 #endif // DCPUMPCONTROL
@@ -3676,7 +3676,7 @@ void RATouchMenu::ProcessTouch()
 						h=20;
 						k=64;
 					}
-					int aicolor[] = {COLOR_ORANGE,COLOR_LIGHTBLUE,COLOR_ROYALBLUE};
+					uint16_t aicolor[] = {COLOR_ORANGE,COLOR_LIGHTBLUE,COLOR_ROYALBLUE};
 					for (int a=0;a<AI_CHANNELS;a++)
 					{
 						j+=k;
@@ -3687,7 +3687,7 @@ void RATouchMenu::ProcessTouch()
 							NeedsRedraw=true;
 							DisplayedScreen=DIMMING_OVERRIDE;
 							Slider.SetColor(aicolor[a]);
-							Slider.SetCurrent(AI.GetChannel(a));
+							Slider.SetCurrent(ReefAngel.AI.GetChannel(a));
 							Slider.SetOverrideID(OVERRIDE_AI_WHITE+a);
 							Slider.SetLabelP((char * )pgm_read_word(&(LABEL_AI[a])));
 						}
@@ -3712,7 +3712,7 @@ void RATouchMenu::ProcessTouch()
 						h=15;
 						k=34;
 					}
-					int rfcolor[] = {COLOR_ORANGE,COLOR_ROYALBLUE,COLOR_RED,COLOR_GREEN,COLOR_LIGHTBLUE,COLOR_MAGENTA};
+					uint16_t rfcolor[] = {COLOR_ORANGE,COLOR_ROYALBLUE,COLOR_RED,COLOR_GREEN,COLOR_LIGHTBLUE,COLOR_MAGENTA};
 					for (int a=0;a<RF_CHANNELS;a++)
 					{
 						j+=k;
@@ -3723,7 +3723,7 @@ void RATouchMenu::ProcessTouch()
 							NeedsRedraw=true;
 							DisplayedScreen=DIMMING_OVERRIDE;
 							Slider.SetColor(rfcolor[a]);
-							Slider.SetCurrent(RF.GetChannel(a));
+							Slider.SetCurrent(ReefAngel.RF.GetChannel(a));
 							Slider.SetOverrideID(OVERRIDE_RF_WHITE+a);
 							Slider.SetLabelP((char * )pgm_read_word(&(LABEL_RF[a])));
 						}
