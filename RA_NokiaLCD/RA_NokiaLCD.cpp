@@ -101,34 +101,34 @@
 #define RDID3    0xDC 	// read ID3
 
 #if defined(__AVR_ATmega2560__)  || defined(__AVR_ATmega1280__)
-#define BL0 cbi(PORTE,4);
-#define BL1 sbi(PORTE,4);
-#define CS0 cbi(PORTE,5);
-#define CS1 sbi(PORTE,5);
+#define BL0 bitClear(PORTE,4);
+#define BL1 bitSet(PORTE,4);
+#define CS0 bitClear(PORTE,5);
+#define CS1 bitSet(PORTE,5);
 #ifdef HWSPILCD
-#define CLK0 cbi(PORTB,1);
-#define CLK1 sbi(PORTB,1);
-#define SDA0 cbi(PORTB,2);
-#define SDA1 sbi(PORTB,2);
+#define CLK0 bitClear(PORTB,1);
+#define CLK1 bitSet(PORTB,1);
+#define SDA0 bitClear(PORTB,2);
+#define SDA1 bitSet(PORTB,2);
 #else
-#define CLK0 cbi(PORTG,5);
-#define CLK1 sbi(PORTG,5);
-#define SDA0 cbi(PORTE,3);
-#define SDA1 sbi(PORTE,3);
+#define CLK0 bitClear(PORTG,5);
+#define CLK1 bitSet(PORTG,5);
+#define SDA0 bitClear(PORTE,3);
+#define SDA1 bitSet(PORTE,3);
 #endif // HWSPILCD
-#define RESET0 cbi(PORTH,3);
-#define RESET1 sbi(PORTH,3);
+#define RESET0 bitClear(PORTH,3);
+#define RESET1 bitSet(PORTH,3);
 #else  // __AVR_ATmega2560__
-#define CS0 cbi(PORTD,CS);
-#define CS1 sbi(PORTD,CS);
-#define CLK0 cbi(PORTD,CLK);
-#define CLK1 sbi(PORTD,CLK);
-#define SDA0 cbi(PORTD,SDA);
-#define SDA1 sbi(PORTD,SDA);
-#define RESET0 cbi(PORTD,RESET);
-#define RESET1 sbi(PORTD,RESET);
-#define BL0 cbi(PORTD,BL);
-#define BL1 sbi(PORTD,BL);
+#define CS0 bitClear(PORTD,CS);
+#define CS1 bitSet(PORTD,CS);
+#define CLK0 bitClear(PORTD,CLK);
+#define CLK1 bitSet(PORTD,CLK);
+#define SDA0 bitClear(PORTD,SDA);
+#define SDA1 bitSet(PORTD,SDA);
+#define RESET0 bitClear(PORTD,RESET);
+#define RESET1 bitSet(PORTD,RESET);
+#define BL0 bitClear(PORTD,BL);
+#define BL1 bitSet(PORTD,BL);
 #endif  // __AVR_ATmega2560__
 
 const unsigned char font[] PROGMEM = {
