@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 #include "RelayService.h"
+#include <RA_WaterLevel.h>
+
 
 class ATOServiceVariables 
 {
@@ -11,6 +13,7 @@ private:
     unsigned long startTime;
     byte Status;
 public:
+    template <typename T>
     friend class ATOService;
 };
 /*
@@ -25,48 +28,55 @@ public:
  * in RAM.
  *
  */
+template <typename WaterLevelSensorType>
 class ATOService 
 {
 public:
-    constexpr ATOService(ATOServiceVariables *const variables, RelayServiceInterface *const relay, const unsigned long maxDuration)
-        : variables(variables), relay(relay), maxDuration(maxDuration) {};
+    constexpr ATOService
+        (ATOServiceVariables *const variables
+        , RelayServiceInterface *const relay
+        , const unsigned long maxDuration
+        , const WaterLevelSensorType sensor)
+        : variables(variables), relay(relay), maxDuration(maxDuration), sensor(sensor) {};
     // Service interface
     void Setup() {};
     void Run();
-
-    // Returns true if the system state is such that automatic topoff can continue or
-    // begin, based on the configured float switches or waterlevel sensor (or both). For
-    // example, if the water level is below the configured setpoint (but not so low that
-    // an error is detected).
-    //
-    // Returns false otherwise. For example, returns false if the water level is at or
-    // above the setpoint, or if there is an error condition.
-    bool IsToppable();
     
     // Returns true if the timer has not yet expired.
     inline bool IsWithinTimeLimit() 
         { return (millis() - variables->startTime) < maxDuration; };
+
+
 private:
     ATOServiceVariables *const variables;
     RelayServiceInterface *const relay;
     const unsigned long maxDuration;
+    const WaterLevelSensorType sensor;
 };
 
-void ATOService::Run()
+template <typename WaterLevelSensorType>
+void ATOService<WaterLevelSensorType>::Run()
 {
     if(variables->isTopping)
     {
         if(IsWithinTimeLimit())
         {
-            if (IsToppable())
+            switch (sensor.GetWaterLevelState())
             {
-                relay->On();
-            }
-            else
-            {
-                // The set water level has been reached; stop.
-                relay->Off();
-                variables->isTopping = false;
+                case wlLow: 
+                    relay->On(); 
+                    break;
+                case wlMiddle:
+                    relay->On();
+                    break;
+                case wlHigh:
+                    relay->Off();
+                    variables->isTopping = false;
+                    break;
+                case wlError:
+                    // TODO: Log/report error condition
+                    relay->Off();
+                    break;
             }
         }   
         else
